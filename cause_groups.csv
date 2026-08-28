@@ -1,0 +1,44 @@
+# ICD-10 cause definitions used by the letter, flattened from
+# config/cause_groups.yaml of the full pipeline repository (semantics in
+# R/causes.R there). underlying_exclusive: rules tried in ascending priority,
+# first match wins; 'blocks' are 3-character ranges compared as (letter,
+# number) so they may cross a letter boundary; 'codes' are exact 3-4 char
+# codes; catch_all matches everything. cancer_sites apply only within the
+# cancer category, in file order. indicators/contributing_flags are
+# non-exclusive; contributing_flags are matched against every record-axis
+# slot. Only the indicator and contributing rules the letter uses are
+# included; underlying_exclusive and cancer_sites are complete because
+# first-match priority makes every category definition load-bearing.
+section,ord,key,priority,catch_all,blocks,codes
+underlying_exclusive,1,covid19,1,FALSE,,U071
+underlying_exclusive,2,suicide,2,FALSE,X60-X84;U03-U03,Y870
+underlying_exclusive,3,homicide,3,FALSE,X85-Y09,Y871
+underlying_exclusive,4,transport,4,FALSE,V01-V99,
+underlying_exclusive,5,drug_poisoning,5,FALSE,X40-X44;Y10-Y14,
+underlying_exclusive,6,alcohol_induced,6,FALSE,F10-F10;K70-K70;X45-X45;X65-X65;Y15-Y15,E244;G312;G621;G721;I426;K292;K852;K860;R780
+underlying_exclusive,7,other_unintentional,7,FALSE,W00-X39;X46-X59,
+underlying_exclusive,8,cancer,8,FALSE,C00-C97,
+underlying_exclusive,9,ihd,9,FALSE,I20-I25,
+underlying_exclusive,10,stroke,10,FALSE,I60-I69,
+underlying_exclusive,11,other_cvd,11,FALSE,I00-I19;I26-I99,
+underlying_exclusive,12,diabetes,12,FALSE,E10-E14,
+underlying_exclusive,13,clrd,13,FALSE,J40-J47,
+underlying_exclusive,14,flu_pneumonia,14,FALSE,J09-J18,
+underlying_exclusive,15,dementia,15,FALSE,G30-G30;F01-F03,
+underlying_exclusive,16,chronic_liver,16,FALSE,K73-K74,
+underlying_exclusive,17,kidney,17,FALSE,N17-N19;N25-N27,
+underlying_exclusive,18,all_other,99,TRUE,,
+cancer_sites,1,lung,NA,FALSE,C33-C34,
+cancer_sites,2,colorectal,NA,FALSE,C18-C21,
+cancer_sites,3,pancreas,NA,FALSE,C25-C25,
+cancer_sites,4,prostate,NA,FALSE,C61-C61,
+cancer_sites,5,breast,NA,FALSE,C50-C50,
+cancer_sites,6,liver,NA,FALSE,C22-C22,
+cancer_sites,7,leuk_lymphoma,NA,FALSE,C81-C96,
+cancer_sites,8,other_cancer,NA,TRUE,,
+indicators,1,drug_poisoning_all_intents,NA,FALSE,X40-X44;X60-X64;X85-X85;Y10-Y14,
+indicators,2,deaths_of_despair,NA,FALSE,X60-X84;U03-U03;X40-X44;X85-X85;Y10-Y14;F10-F10;K70-K70;X45-X45;X65-X65;Y15-Y15,Y870;E244;G312;G621;G721;I426;K292;K852;K860;R780
+contributing_flags,1,covid_anywhere,NA,FALSE,,U071
+contributing_flags,2,obesity_anywhere,NA,FALSE,E66-E66,
+contributing_flags,3,hypertension_anywhere,NA,FALSE,I10-I15,
+contributing_flags,4,diabetes_anywhere,NA,FALSE,E10-E14,

@@ -1,0 +1,19 @@
+# 2000 US standard population, 11 age groups, per 1,000,000.
+# Source: Klein RJ, Schoenborn CA. Age adjustment using the 2000 projected U.S.
+#   population. Healthy People 2010 Statistical Notes, no. 20. Hyattsville, MD:
+#   National Center for Health Statistics. January 2001. Table 1, page 4
+#   ("Year 2000 projected population, 11 age groups").
+#   https://www.cdc.gov/nchs/data/statnt/statnt20.pdf
+# Weights sum to exactly 1,000,000.
+age_group,age_lo,age_hi,std_pop
+0-0,0,0,13818
+1-4,1,4,55317
+5-14,5,14,145565
+15-24,15,24,138646
+25-34,25,34,135573
+35-44,35,44,162613
+45-54,45,54,134834
+55-64,55,64,87247
+65-74,65,74,66037
+75-84,75,84,44842
+85+,85,199,15508

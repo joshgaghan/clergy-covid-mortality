@@ -1,0 +1,16 @@
+# Column positions for the 2022 NVSS multiple cause-of-death file,
+# 1-based inclusive, exported from config/layouts/nvss_2022.yaml of the full
+# pipeline repository (verified there against layout_2022.pdf).
+# occupation_code_scheme: Census 2012
+# record length: 817 bytes plus CRLF. record_axis_raw is 20 slots x 5 bytes
+# (4-byte ICD-10 code + 1 blank). All fields are read as character.
+field,start,end,type
+resident_status,20,20,character
+sex,69,69,character
+age_detail,70,73,character
+data_year,102,105,character
+icd10_underlying,146,149,character
+hispanic_origin,484,486,character
+race_recode_40,489,490,character
+occ_code4,806,809,character
+record_axis_raw,344,443,character

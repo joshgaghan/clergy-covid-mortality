@@ -1,0 +1,11 @@
+# Sex weights for pooling sex-specific age-adjusted rates into a combined rate.
+# The 2000 US standard population (11 age groups) is not published by sex, so the
+# sex weights are taken from the Census 2000 resident population count.
+# Source: U.S. Census Bureau, Census 2000 Summary File 1, Table P12 (Sex by Age);
+#   total resident population 281,421,906 = 138,053,563 male + 143,368,343 female.
+#   Reported in: Census 2000 Brief C2KBR/01-9, "Age: 2000", Table 1.
+# CLAUDE.md asks that sexes be pooled "with sex weights from the standard
+# population"; see decisions.md 2026-08-24 entry on combined-sex standardization.
+sex,count_2000,weight
+M,138053563,0.4905553
+F,143368343,0.5094447

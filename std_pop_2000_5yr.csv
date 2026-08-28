@@ -1,0 +1,18 @@
+# 2000 US standard population, 5-year age groups 25-74, per 1,000,000.
+# Source: Klein RJ, Schoenborn CA. Age adjustment using the 2000 projected US
+#   population. Healthy People 2010 Statistical Notes, no. 20; January 2001.
+#   Table 2, standard million, Distribution No. 1.
+# VALIDATED in tests/testthat/test-harmonize.R: each pair sums exactly to the
+# 10-year values in config/std_pop_2000.csv (135573, 162613, 134834, 87247,
+# 66037), which were validated in Phase 1.
+age5,std_pop
+25-29,64529
+30-34,71044
+35-39,80762
+40-44,81851
+45-49,72118
+50-54,62716
+55-59,48454
+60-64,38793
+65-69,34264
+70-74,31773
