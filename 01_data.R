@@ -2,8 +2,7 @@
 # 01_data.R -- download and parse the public data behind the research letter
 # "COVID-19 Mortality Among US Clergy, 2020-2024".
 #
-# Companion repository to the full analysis pipeline (tag jamaim-v3); the code
-# here is EXTRACTED from that repository, not reimplemented. Origin of every
+# Companion repository to the full analysis pipeline. Origin of every
 # function is noted at its definition. Run from this directory:
 #     Rscript 01_data.R      (then Rscript 02_analysis.R)
 #
@@ -15,27 +14,25 @@
 # Package versions when the acceptance run was recorded (see README.md):
 #   R 4.5.1; readr 2.1.5; dplyr 1.1.4; tidyr 1.3.1; arrow 21.0.0.1; ggplot2 4.0.0
 #
-# # DECISIONS (dated; also see 02_analysis.R)
-# 2026-09-14  Superseding build for the submitted letter: extraction baseline
-#             is the full repository at tag jamaim-v3 (108 statistics).
-#             month_of_death added to every layout and parsed in the main
-#             pass (positions 65-66, verified in each year's layout PDF by
-#             the full repository), because the submitted analyses split
-#             2021 at April 30.
-# 2026-08-28  SHA-256 is computed by shelling out to shasum -a 256 (base R has
-#             no SHA-256 and the openssl package is not on the allowed list);
-#             if no shasum/sha256sum tool exists the check is skipped with a
-#             warning.
-# 2026-08-28  NVSS zips use Deflate64, which R's internal unzip() rejects as
-#             corrupt; extraction shells out to /usr/bin/unzip, as in the full
-#             pipeline (its decisions.md, 2026-08-25).
-# 2026-08-28  Plumbing-only YAML configs of the full repo are carried here as
-#             hardcoded constants with their values copied verbatim: the
-#             occupation-code scheme by year (config/layouts/*.yaml,
-#             occupation_code_scheme) and the supplemental not-employed codes,
-#             which are derived from occ_crosswalk.csv mapping_kind rather than
-#             occ_groups.yaml. This keeps the repo YAML-free; no statistic
-#             depends on code not extracted verbatim.
+# # DECISIONS (dated)
+# 2026-09-14  Extraction baseline is the full (archival) repository at tag
+#             jamaim-v3. month_of_death is parsed in the main pass for every
+#             year (positions 65-66, verified against each year's layout PDF
+#             in the archival repository), because the submitted analyses
+#             split 2021 at April 30.
+# 2026-09-14  The NVSS zips use Deflate64 compression, which R's built-in
+#             unzip() rejects as corrupt; extraction shells out to the
+#             system unzip (Info-ZIP 6.0+, standard on macOS and Linux,
+#             handles Deflate64). See also README.md, Requirements.
+# 2026-09-14  SHA-256 is computed by shelling out to shasum or sha256sum
+#             (base R has no SHA-256); if neither tool exists the check is
+#             skipped with a warning, and the control-total canary at the
+#             end of this script is the backstop.
+# 2026-09-14  The supplemental not-employed occupation codes are recovered
+#             from occ_crosswalk.csv's mapping_kind column rather than the
+#             archival repository's occ_groups.yaml, keeping this repo
+#             YAML-free; the recovered set is identical (9010 9020 9060
+#             9070 9100 9830 9840 9850 9900).
 
 suppressPackageStartupMessages({
   library(readr); library(dplyr); library(arrow)

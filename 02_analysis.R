@@ -1,46 +1,18 @@
-#!/usr/bin/env Rscript
-# 02_analysis.R -- every statistic in the research letter "COVID-19 Mortality
+#02_analysis.R -- every statistic in the research letter "COVID-19 Mortality
 # Among US Clergy, 2020-2024" (submitted to JAMA Internal Medicine),
 # recomputed from the parquet written by 01_data.R and verified, statistic by
-# statistic, against the shipped numbers.csv (108 statistics). Any mismatch
+# statistic, against every row of the shipped numbers.csv at its stored
+# rounding. Any mismatch
 # exits with a nonzero status.
 #
-# Companion repository to the full analysis pipeline (tag jamaim-v3); all
-# analysis code is EXTRACTED from that repository, never reimplemented, and
-# every function below carries an origin comment naming its source file.
+# Companion repository to the full analysis pipeline.
+# Every function below carries an origin comment naming its source file.
 #
 # Run:  Rscript 01_data.R  then  Rscript 02_analysis.R   (from this directory)
 #
 # Package versions when the acceptance run was recorded (see README.md):
 #   R 4.5.1; readr 2.1.5; dplyr 1.1.4; tidyr 1.3.1; arrow 21.0.0.1; ggplot2 4.0.0
 #
-# # DECISIONS (dated)
-# 2026-09-14  This build supersedes the 2026-08-28 companion (tag jamaim-v2
-#             era, 98 statistics): the letter gained year-specific PMRs, the
-#             within-2021 split, the conditional obesity mention ratio, and
-#             the workforce CI, and numbers.csv now carries 108 statistics.
-# 2026-09-14  Month of death is parsed in the main 01_data.R pass (positions
-#             65-66, verified in every year's layout PDF by the full repo),
-#             so the within-2021 split reads month straight from the parquet.
-#             The full repo instead re-reads month from the raw file and
-#             aligns by record order (its interim parquet predates the
-#             split); the same two guards are kept here - the split frame
-#             must reproduce build_pmr_deaths(2021)'s row count and COVID-19
-#             total, and the two periods must partition the 2021 clergy
-#             COVID-19 deaths exactly.
-# 2026-09-14  tibble::tibble() calls inside extracted functions are kept
-#             verbatim; tibble is a hard dependency of dplyr and readr, so no
-#             package beyond the allowed list is installed.
-# 2026-09-14  std_pop_2000.csv and std_pop_2000_sex.csv ship alongside the
-#             listed std_pop_2000_5yr.csv: the sixteen sex-only rate-ratio
-#             rows use the verbatim standardise(), which standardizes over
-#             the 10-year 2000 standard population with Census 2000 sex
-#             weights.
-# 2026-09-14  Config-plumbing functions (year_scheme, not_employed_codes,
-#             non_participating) carry hardcoded constants or read the
-#             shipped crosswalk instead of the full repo's YAML; values
-#             copied verbatim and noted at each definition. The only new
-#             function in this file is near().
 
 suppressPackageStartupMessages({
   library(readr); library(dplyr); library(tidyr); library(arrow); library(ggplot2)
@@ -329,7 +301,7 @@ denominator_rule <- function(df, rule = c("occp", "esr12")) {
   }
 }
 
-# --- race / ethnicity (kept for parity with Phase 1; not used in the letter) --
+# --- race / ethnicity ------------------------------------------------------
 
 nvss_race_eth <- function(hispanic_origin, race_recode_40) {
   is_h <- !is.na(hispanic_origin) & hispanic_origin >= 200 & hispanic_origin <= 299
@@ -588,6 +560,7 @@ clergy_demographics <- function(pop, years = YEARS) {
 }
 
 ## ---- from R/pmr.R (VERBATIM; the letter's PMR code) -----------------------
+# Causes removed for the natural-causes restriction: the external, substance
 # and smoking-driven categories where clergy differ most from other workers.
 # NOTE: Phase 3's brief says this list is defined in config/cause_groups.yaml;
 # it is not - config/ defines the cause CATEGORIES, and Phase 2 defined this
@@ -1049,7 +1022,7 @@ letter_figure_plot <- function(pmr_deaths) {
                "3065" = "Physicians and surgeons",
                "2100" = "Lawyers")
   rank2 <- main[main$rank == 2L, ]
-  extra <- setNames("Furnace, kiln, and oven operators", rank2$occ)
+  extra <- setNames(rank2$lab[1], rank2$occ)
   lab_map <- c(lab_map, extra[setdiff(names(extra), names(lab_map))])
   hi <- main[main$occ %in% names(lab_map), ] |>
     mutate(display = unname(lab_map[occ]), is_clergy = occ == "2040")
@@ -1145,7 +1118,7 @@ css_pmr_summary <- function(pmr_deaths) {
   if (sprintf("%.2f", cl$pmr) != "1.94" ||
       sprintf("%.2f-%.2f", cl$lo, cl$hi) != "1.87-2.01" || cl$rank != 1L) {
     stop_hard("clergy PMR is %.2f (%.2f-%.2f) rank %d, not the published 1.94 ",
-              "(1.87-2.01) rank 1 - an estimate changed; stopping per the task brief.",
+              "(1.87-2.01) rank 1; stopping: a published estimate did not reproduce.",
               cl$pmr, cl$lo, cl$hi, cl$rank)
   }
 
@@ -1767,8 +1740,9 @@ letter_figure_build(pmr_deaths)   # results/figure1.pdf, figure1.png
 ## nonzero. If a statistic does not reproduce, report it - never adjust
 ## either side.
 ## ===========================================================================
-banner("Section 13: verification against numbers.csv (108 statistics)")
 shipped  <- readr::read_csv("numbers.csv", show_col_types = FALSE)
+banner(sprintf("Section 13: verification against numbers.csv (%d statistics)",
+               nrow(shipped)))
 computed <- dplyr::bind_rows(ROWS)
 stopifnot(!any(duplicated(computed$name)))
 n_pass <- 0L; n_fail <- 0L
