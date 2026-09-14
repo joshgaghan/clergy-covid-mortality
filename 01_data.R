@@ -2,7 +2,7 @@
 # 01_data.R -- download and parse the public data behind the research letter
 # "COVID-19 Mortality Among US Clergy, 2020-2024".
 #
-# Companion repository to the full analysis pipeline (tag jamaim-v2); the code
+# Companion repository to the full analysis pipeline (tag jamaim-v3); the code
 # here is EXTRACTED from that repository, not reimplemented. Origin of every
 # function is noted at its definition. Run from this directory:
 #     Rscript 01_data.R      (then Rscript 02_analysis.R)
@@ -16,12 +16,12 @@
 #   R 4.5.1; readr 2.1.5; dplyr 1.1.4; tidyr 1.3.1; arrow 21.0.0.1; ggplot2 4.0.0
 #
 # # DECISIONS (dated; also see 02_analysis.R)
-# 2026-08-28  Extraction baseline is the full repository at commit 3cc5d45, a
-#             descendant of tag jamaim-v2: three post-tag commits added rows now
-#             in numbers.csv (funeral-occupation contrast; expected/excess/
-#             share/workforce), so the tag alone cannot reproduce all 98.
-#             No function extracted here differs from its jamaim-v2 version
-#             except pmr.R (strict_natural added post-tag) and letter_targets.R.
+# 2026-09-14  Superseding build for the submitted letter: extraction baseline
+#             is the full repository at tag jamaim-v3 (108 statistics).
+#             month_of_death added to every layout and parsed in the main
+#             pass (positions 65-66, verified in each year's layout PDF by
+#             the full repository), because the submitted analyses split
+#             2021 at April 30.
 # 2026-08-28  SHA-256 is computed by shelling out to shasum -a 256 (base R has
 #             no SHA-256 and the openssl package is not on the allowed list);
 #             if no shasum/sha256sum tool exists the check is skipped with a
@@ -209,9 +209,12 @@ contributing_flag <- function(record_axis_raw, rule, n_slots = 20L, slot_w = 5L)
 
 ## ---- 3. Parse NVSS (adapted from R/parse_nvss.R) --------------------------
 # Fields the letter needs, and nothing else: resident_status, sex, age_detail,
-# data_year, icd10_underlying, hispanic_origin, race_recode_40, occ_code4,
-# record_axis_raw (the 20 multiple-condition slots). Positions come from
-# layouts/nvss_{year}.csv; nothing here hardcodes a position.
+# data_year, month_of_death (the submitted analyses split 2021 by month; it
+# is parsed here for every year, which removes any need for the record-order
+# re-read used in the full repository), icd10_underlying, hispanic_origin,
+# race_recode_40, occ_code4, record_axis_raw (the 20 multiple-condition
+# slots). Positions come from layouts/nvss_{year}.csv; nothing here
+# hardcodes a position.
 
 RECORD_LEN <- 817L
 
@@ -255,6 +258,7 @@ parse_nvss_year <- function(year) {
                       ifelse(unit %in% c("2", "4", "5", "6"), 0L, NA_integer_))
   df <- tibble::tibble(
     data_year        = int(raw$data_year),
+    month            = int(raw$month_of_death),
     resident_status  = int(raw$resident_status),
     sex              = chr(raw$sex),
     age_years        = as.integer(age_years),
@@ -270,6 +274,9 @@ parse_nvss_year <- function(year) {
     df[[paste0("cf_", r$key)]] <- contributing_flag(raw$record_axis_raw, r)
   rm(raw); gc(verbose = FALSE)
 
+  if (any(is.na(df$month)) || any(df$month < 1L | df$month > 12L)) {
+    stop_hard("%d: month of death outside 1-12", year)
+  }
   bad_year <- sum(df$data_year != year, na.rm = TRUE)
   if (bad_year > 0) stop_hard("%d: %d records carry another data year", year, bad_year)
   arrow::write_parquet(df, out)

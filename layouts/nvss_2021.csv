@@ -9,6 +9,7 @@ resident_status,20,20,character
 sex,69,69,character
 age_detail,70,73,character
 data_year,102,105,character
+month_of_death,65,66,character
 icd10_underlying,146,149,character
 hispanic_origin,484,486,character
 race_recode_40,489,490,character

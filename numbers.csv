@@ -89,6 +89,8 @@ pmr_clergy_expected_2020_2021,1506,NA,NA,2922,expected clergy COVID-19 deaths 20
 excess_covid_deaths_2020_2021,1416,NA,NA,2922,observed minus expected clergy COVID-19 deaths
 covid_share_clergy_2020_2021,26.3,NA,NA,2922,"COVID-19 share of clergy deaths 2020-2021, %"
 covid_share_expected_2020_2021,13.5,NA,NA,2922,"expected COVID-19 share at all-worker composition, %"
+clergy_deaths_2020_2021,11123,NA,NA,11123,"clergy deaths 2020-2021, benchmark denominator (employed decedents)"
+obesity_share_covid_certs_ratio,1.22,1.09,1.37,293,"obesity mentions per COVID-19-certificate death, clergy vs other employed, standardized over sex x 5-y age x race/ethnicity, 2020-2024; crude 7.9% vs 8.3%"
 acs_clergy_workforce,489712,480465,498959,NA,"mean annual ACS-weighted clergy, primary denominator (civilian 25-74, nonblank OCCP, participating jurisdictions), 2020-2024; SDR CI"
 pmr_rank2_occupation,1.58,1.08,2.23,32,"Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders"
 pmr_natural_rank1_occupation,NA,NA,NA,72,"Graders and Sorters, Agricultural Products"
@@ -97,3 +99,11 @@ pmr_clergy_natural_strict,1.95,1.88,2.02,2922,clergy PMR restricted to natural c
 pmr_clergy_natural_strict_rank,1,NA,NA,NA,"rank among 449 occupations, strict natural causes"
 pmr_natural_strict_rank2_occupation,1.9,1.49,2.4,72,"Graders and Sorters, Agricultural Products"
 pmr_geo_region_only,1,0.99,1,NA,region-only composition ratio; SDR CI from replicate weights
+pmr_clergy_2020,1.79,1.68,1.9,1057,"clergy COVID-19 PMR, 2020 alone; expected 591; reference composition within the year"
+pmr_clergy_2020_rank,2,NA,NA,NA,rank among 363 occupations with >=100 deaths in 2020; >=50-death floor (sensitivity): rank 2 of 363
+pmr_clergy_2021,2.02,1.93,2.11,1865,"clergy COVID-19 PMR, 2021 alone; expected 925; reference composition within the year"
+pmr_clergy_2021_rank,1,NA,NA,NA,rank among 419 occupations with >=100 deaths in 2021; >=50-death floor (sensitivity): rank 1 of 420
+pmr_clergy_2021_jan_apr,1.77,1.63,1.91,639,"clergy COVID-19 PMR, 2021 Jan-Apr (boundary Apr 30; adults vaccine-eligible Apr 19); expected 361"
+pmr_clergy_2021_may_dec,2.18,2.06,2.3,1226,"clergy COVID-19 PMR, 2021 May-Dec; expected 563"
+rr_covid_2020,2,1.85,2.17,1056,"COVID-19 rate ratio, 2020 alone, harmonized standardization, year-matched ACS denominator"
+rr_covid_2021,2.11,1.98,2.26,1865,"COVID-19 rate ratio, 2021 alone, harmonized standardization, year-matched ACS denominator"

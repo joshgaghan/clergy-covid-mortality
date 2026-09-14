@@ -1,13 +1,13 @@
 #!/usr/bin/env Rscript
 # 02_analysis.R -- every statistic in the research letter "COVID-19 Mortality
-# Among US Clergy, 2020-2024", recomputed from the parquet written by
-# 01_data.R and verified, statistic by statistic, against the shipped
-# numbers.csv (98 statistics). Any mismatch exits with a nonzero status.
+# Among US Clergy, 2020-2024" (submitted to JAMA Internal Medicine),
+# recomputed from the parquet written by 01_data.R and verified, statistic by
+# statistic, against the shipped numbers.csv (108 statistics). Any mismatch
+# exits with a nonzero status.
 #
-# Companion repository to the full analysis pipeline (tag jamaim-v2). The code
-# is EXTRACTED from that repository, not reimplemented: every function below
-# carries an origin comment naming its source file there. The standardization
-# and PMR machinery (R/standardize.R, R/pmr.R) is copied verbatim.
+# Companion repository to the full analysis pipeline (tag jamaim-v3); all
+# analysis code is EXTRACTED from that repository, never reimplemented, and
+# every function below carries an origin comment naming its source file.
 #
 # Run:  Rscript 01_data.R  then  Rscript 02_analysis.R   (from this directory)
 #
@@ -15,42 +15,40 @@
 #   R 4.5.1; readr 2.1.5; dplyr 1.1.4; tidyr 1.3.1; arrow 21.0.0.1; ggplot2 4.0.0
 #
 # # DECISIONS (dated)
-# 2026-08-28  Extraction baseline is the full repository at commit 3cc5d45
-#             (descendant of tag jamaim-v2; three post-tag commits added rows
-#             now in numbers.csv, so the tag alone cannot reproduce all 98).
-# 2026-08-28  tibble::tibble() calls inside extracted functions are kept
+# 2026-09-14  This build supersedes the 2026-08-28 companion (tag jamaim-v2
+#             era, 98 statistics): the letter gained year-specific PMRs, the
+#             within-2021 split, the conditional obesity mention ratio, and
+#             the workforce CI, and numbers.csv now carries 108 statistics.
+# 2026-09-14  Month of death is parsed in the main 01_data.R pass (positions
+#             65-66, verified in every year's layout PDF by the full repo),
+#             so the within-2021 split reads month straight from the parquet.
+#             The full repo instead re-reads month from the raw file and
+#             aligns by record order (its interim parquet predates the
+#             split); the same two guards are kept here - the split frame
+#             must reproduce build_pmr_deaths(2021)'s row count and COVID-19
+#             total, and the two periods must partition the 2021 clergy
+#             COVID-19 deaths exactly.
+# 2026-09-14  tibble::tibble() calls inside extracted functions are kept
 #             verbatim; tibble is a hard dependency of dplyr and readr, so no
 #             package beyond the allowed list is installed.
-# 2026-08-28  std_pop_2000.csv and std_pop_2000_sex.csv ship alongside the
+# 2026-09-14  std_pop_2000.csv and std_pop_2000_sex.csv ship alongside the
 #             listed std_pop_2000_5yr.csv: the sixteen sex-only rate-ratio
-#             rows use the verbatim standardise(), which standardizes over the
-#             10-year 2000 standard population with Census 2000 sex weights.
-# 2026-08-28  "The extracted standardization and PMR functions" is read to
-#             include the support functions they call (crosswalk lookup,
-#             groups, panels, harmonized standardization, geography bound,
-#             letter targets), each extracted with its origin noted; the one
-#             new function in this file is near(). Three config-plumbing
-#             functions (year_scheme, not_employed_codes, non_participating)
-#             read hardcoded constants or the shipped crosswalk instead of the
-#             full repo's YAML; the values are copied verbatim and noted.
-# 2026-08-28  The within-race rows are recomputed from the death records
-#             (R/benchmark.R::covid_share_by_race semantics). The full
-#             pipeline persisted that table and letter_targets.R read it back;
-#             this repository has no persisted intermediates. Verification
-#             against numbers.csv confirms equality.
-# 2026-08-28  Verification compares name, value, lower, upper and n at the
-#             stored rounding (tolerance 1e-8, NA-safe); the free-text note
-#             column is documentation, not a statistic, and is not compared.
+#             rows use the verbatim standardise(), which standardizes over
+#             the 10-year 2000 standard population with Census 2000 sex
+#             weights.
+# 2026-09-14  Config-plumbing functions (year_scheme, not_employed_codes,
+#             non_participating) carry hardcoded constants or read the
+#             shipped crosswalk instead of the full repo's YAML; values
+#             copied verbatim and noted at each definition. The only new
+#             function in this file is near().
 
 suppressPackageStartupMessages({
   library(readr); library(dplyr); library(tidyr); library(arrow); library(ggplot2)
 })
 
 ## ---- plumbing shims -------------------------------------------------------
-# PATHS, adapted from R/util.R: the full pipeline resolves config/, data/ and
-# output/letter/ under a project root; this repository keeps the config CSVs
-# at top level, parquet under data/, and everything it produces under
-# results/. The extracted functions below call these unchanged.
+# PATHS, adapted from R/util.R: this repository keeps config CSVs at top
+# level, parquet under data/, and everything it produces under results/.
 PATHS <- list(
   config  = function(...) file.path(...),
   layouts = function(...) file.path("layouts", ...),
@@ -360,8 +358,7 @@ ACS_FOR <- list(`2020` = c(2019, 2021), `2021` = 2021, `2022` = 2022,
 # non_participating, from R/letter.R: there the jurisdiction lists are read
 # from config/io_participation.yaml; carried here as constants (2-digit state
 # FIPS, matching the ACS ST/STATE variable). Source: NCHS I&O documentation
-# for 2020 (46 states and NYC participated; Iowa's data excluded as
-# inconsistent) and the record-layout PDFs for later years.
+# for 2020 and the record-layout PDFs for later years.
 non_participating <- function() list(
   `2020` = c("04", "19", "37", "44", "11"),   # AZ, IA, NC, RI, DC
   `2021` = c("44", "11"),                     # RI, DC
@@ -949,7 +946,7 @@ geo_bound_values <- function(pmr_deaths) {
        cl = cl, adj = unname(cl$pmr / main["clergy"]))
 }
 
-## ---- from R/letter_targets.R (verbatim): letter deliverables --------------
+## ---- from R/letter_targets.R and R/pmr_period.R (verbatim): letter targets
 LETTER_REF_OCCS <- c(clergy = "2040", taxi = "9141", childcare = "4600",
                      physicians = "3065", lawyers = "2100")
 
@@ -981,10 +978,63 @@ clergy_workforce <- function() {
   c(est = theta, lo = theta - 1.96 * se, hi = theta + 1.96 * se)
 }
 
-letter_figure_build <- function(pmr_deaths,
-                                out_pdf = PATHS$output("letter", "figure1.pdf"),
-                                out_png = PATHS$output("letter", "figure1.png")) {
-  banner("letter_figure: ranked COVID-19 PMR plot (Figure, panel A only)")
+# GATE check (2026-09-01, draft-9 author note): the Discussion's conditional
+# claim - among deaths with COVID-19 on the certificate, obesity is mentioned
+# about as often for clergy as for other workers - was inferred from the
+# ratio of two population rate ratios (2.07/2.05), not computed. This
+# computes it directly: observed clergy obesity mentions among
+# COVID-19-certificate deaths vs the count expected at the other-employed
+# stratum-specific mention proportions (sex x 5-y age x race/ethnicity, the
+# letter's harmonized strata; unknown race excluded as in R/harmonize.R),
+# with an exact Poisson interval on the observed count. Same filters as the
+# harmonized deaths panel; 2020-2024.
+obesity_conditional_covid <- function() {
+  parts <- list()
+  for (y in YEARS) {
+    d <- arrow::read_parquet(PATHS$interim(sprintf("nvss_%d.parquet", y)),
+      col_select = c("resident_status", "age_years", "sex", "occ_code4",
+                     "hispanic_origin", "race_recode_40",
+                     "cf_covid_anywhere", "cf_obesity_anywhere"))
+    d <- d[d$resident_status != 4L & !is.na(d$age_years) &
+             d$age_years >= 25 & d$age_years <= 74 & d$cf_covid_anywhere, ]
+    d$occ_analysis <- harmonise_occ(
+      d$occ_code4, unname(year_scheme()[as.character(y)]))$analysis
+    d$grp <- assign_group(d$occ_analysis)
+    d <- d[d$grp %in% c("clergy", "other_employed"), ]
+    d$age5 <- as.character(cut(d$age_years, breaks = seq(25, 75, 5),
+                               right = FALSE))
+    d$raceeth <- nvss_race_eth(d$hispanic_origin, d$race_recode_40)
+    d <- d[d$raceeth != "unknown", ]
+    parts[[length(parts) + 1L]] <- d |>
+      group_by(grp, sex, age5, raceeth) |>
+      summarise(covid_deaths = n(), obesity = sum(cf_obesity_anywhere),
+                .groups = "drop")
+  }
+  agg <- bind_rows(parts) |>
+    group_by(grp, sex, age5, raceeth) |>
+    summarise(covid_deaths = sum(covid_deaths), obesity = sum(obesity),
+              .groups = "drop")
+  ref <- agg[agg$grp == "other_employed", ]
+  cl <- agg[agg$grp == "clergy", ] |>
+    left_join(ref |> mutate(p = obesity / covid_deaths) |>
+                select(sex, age5, raceeth, p),
+              by = c("sex", "age5", "raceeth"))
+  # every clergy stratum must have a reference proportion, or expected and
+  # observed would cover different deaths
+  stopifnot(!any(is.na(cl$p)))
+  obs <- sum(cl$obesity); expd <- sum(cl$covid_deaths * cl$p)
+  list(obs = obs, expected = expd, ratio = obs / expd,
+       lo = stats::qgamma(0.025, obs) / expd,
+       hi = stats::qgamma(0.975, obs + 1) / expd,
+       clergy_share = obs / sum(cl$covid_deaths),
+       other_share = sum(ref$obesity) / sum(ref$covid_deaths))
+}
+
+# Plot construction, split out of letter_figure_build 2026-09-14 so the
+# submission exports (cairo PDF with embedded fonts; 350-dpi LZW TIFF) draw
+# the IDENTICAL plot object. No aesthetic change; the figure-labels test and
+# figure1_points.csv are unaffected.
+letter_figure_plot <- function(pmr_deaths) {
   main <- pmr_by_occupation(pmr_deaths, strata = c("sex", "age5", "raceeth"))
 
   # Labeled points: everything the letter discusses, PLUS the rank-2
@@ -1050,6 +1100,15 @@ letter_figure_build <- function(pmr_deaths,
     theme_bw(base_size = 9) +
     theme(panel.grid.minor = element_blank(),
           panel.grid.major.x = element_blank())
+  list(p = p, hi = hi, main = main)
+}
+
+letter_figure_build <- function(pmr_deaths,
+                                out_pdf = PATHS$output("letter", "figure1.pdf"),
+                                out_png = PATHS$output("letter", "figure1.png")) {
+  banner("letter_figure: ranked COVID-19 PMR plot (Figure, panel A only)")
+  fp <- letter_figure_plot(pmr_deaths)
+  p <- fp$p; hi <- fp$hi
   ggsave(out_pdf, p, width = 6.8, height = 4.2, device = grDevices::pdf)
   ggsave(out_png, p, width = 6.8, height = 4.2, dpi = 300)
   log_msg("  wrote %s, %s, figure1_points.csv; %d occupations labeled",
@@ -1165,9 +1224,57 @@ TABLE1_SPEC <- tibble::tribble(
   "obesity_noncovid_cert","Obesity mentioned, other certificates"
 )
 
+# Clergy row of an unfloored, unranked PMR run over a subset of deaths:
+# clergy vs all employed decedents in the subset, exact Poisson CI.
+clergy_pmr_of <- function(deaths, strata = c("sex", "age5", "raceeth")) {
+  tab <- pmr_by_occupation(deaths, strata = strata, min_deaths = 0, min_obs = 0)
+  tab[tab$occ == "2040", ][1, ]
+}
+
+# Clergy-broad (2040 + 2050 + 2060) from an unfloored run: summed observed
+# and expected, as in css_pmr_summary's group rows.
+pmr_broad_of <- function(tab_unfloored) {
+  m <- tab_unfloored[tab_unfloored$occ %in% CLERGY_BROAD, ]
+  obs <- sum(m$observed); expd <- sum(m$expected)
+  tibble::tibble(observed = obs, expected = expd, pmr = obs / expd,
+                 lo = stats::qgamma(0.025, obs) / expd,
+                 hi = stats::qgamma(0.975, obs + 1) / expd,
+                 denom_deaths = sum(m$denom_deaths))
+}
+
+# pmr_deaths_2021_by_month, ADAPTED from R/pmr_period.R: the full repo's
+# interim parquet lacks month, so it re-reads the raw file and aligns by
+# record order; here 01_data.R parses month in the main pass, so month comes
+# straight from the parquet. The verification guard is kept unchanged: the
+# frame must reproduce build_pmr_deaths(2021)'s row count and COVID-19 total.
+pmr_deaths_2021_by_month <- function() {
+  d <- arrow::read_parquet(PATHS$interim("nvss_2021.parquet"),
+    col_select = c("resident_status", "age_years", "sex", "occ_code4",
+                   "cause_cat", "hispanic_origin", "race_recode_40", "month"))
+  d <- d[d$resident_status != 4L, ]
+  d <- d[!is.na(d$age_years) & d$age_years >= 25 & d$age_years <= 74, ]
+  h <- harmonise_occ(d$occ_code4, unname(year_scheme()[["2021"]]))
+  d$occ <- h$analysis; d$lab <- h$label
+  d <- d[!is.na(d$occ), ]
+  d <- d[!d$occ %in% not_employed_codes(), ]
+  out <- tibble::tibble(
+    occ = d$occ, lab = d$lab, sex = d$sex,
+    age5 = as.character(cut(d$age_years, breaks = seq(25, 75, 5),
+                            right = FALSE)),
+    raceeth = nvss_race_eth(d$hispanic_origin, d$race_recode_40),
+    covid_underlying = d$cause_cat == "covid19",
+    month = d$month)
+  ref <- build_pmr_deaths(years = 2021)
+  if (nrow(out) != nrow(ref) ||
+      sum(out$covid_underlying) != sum(ref$covid_underlying)) {
+    stop_hard("2021 month frame does not reproduce build_pmr_deaths(2021); aborting")
+  }
+  out
+}
+
 # add()/add_rr()/add_pmr()/st(), from R/letter_targets.R::letter_numbers_build
-# (defined there as locals over the running row list; lifted to the top level
-# so the sections below accumulate the same rows with the same rounding).
+# (defined there as locals; lifted to the top level so the sections below
+# accumulate the same rows with the same rounding).
 ROWS <- list()
 add <- function(name, value, lower = NA_real_, upper = NA_real_,
                 n = NA_integer_, note = "") {
@@ -1189,21 +1296,19 @@ st <- function(m, years = YEARS, bands = BAND_LABELS) {
 }
 
 ## ===========================================================================
-## Section 2. Analysis population and groups
+## Section 2. Groups and population
 ## Methods: "We analyzed National Vital Statistics System multiple cause-of-
-## death public-use files, 2020-2024, with usual occupation coded to Census
-## occupation codes. Clergy were code 2040. Person-years at risk were
-## estimated from American Community Survey (ACS) person weights for civilian
-## adults aged 25 to 74 years who reported an occupation, restricted to
-## jurisdictions reporting occupation data (2020 interpolated from 2019 and
-## 2021)."
+## death public-use files, 2020-2024 (clergy, Census occupation code 2040).
+## Person-years at risk in each occupation came from the American Community
+## Survey." Comparators (Results): physicians, teachers, counselors, social
+## workers, funeral workers.
 ## ===========================================================================
-banner("Section 2: analysis population and groups")
-log_msg("  clergy: analysis code %s; clergy-broad adds %s", CLERGY,
-        paste(setdiff(CLERGY_BROAD, CLERGY), collapse = ", "))
-log_msg("  community and social services: %s", paste(CSS_CODES, collapse = " "))
-log_msg("  funeral occupations: 4465 (morticians, undertakers, and funeral")
-log_msg("  arrangers), 4461 (embalmers, crematory operators, funeral attendants)")
+banner("Section 2: groups and population")
+log_msg("  clergy %s; clergy-broad adds %s; comparators: physicians 3065,",
+        CLERGY, paste(setdiff(CLERGY_BROAD, CLERGY), collapse = ","))
+log_msg("  teachers 2310, counselors 2001, social workers 2011,")
+log_msg("  morticians 4465, embalmers 4461; CSS group: %s",
+        paste(CSS_CODES, collapse = " "))
 log_msg("  jurisdiction restriction: 2020 drops %s; 2021 drops %s; none later",
         paste(non_participating()[["2020"]], collapse = ","),
         paste(non_participating()[["2021"]], collapse = ","))
@@ -1214,13 +1319,11 @@ pop_panel    <- build_pop_panel(rule = "occp")  # primary denominator
 ## ===========================================================================
 ## Section 3. Demographics and workforce
 ## Results: "There were 23,234 clergy deaths at ages 25 to 74 years (19,128
-## [82.3%] male; mean [SD] age, 65.3 [8.3] years) over 2,448,562 person-
-## years." The ACS workforce size with its replicate-weight CI supports the
-## planned "workforce of approximately 490,000" clause.
+## [82.3%] male; mean [SD] age, 65.3 [8.3] years)." Introduction: "a
+## workforce of approximately 490,000" (SDR CI from the 80 replicate weights).
 ## ===========================================================================
 banner("Section 3: demographics")
 demo <- clergy_demographics(pop_panel)
-# adds verbatim from R/letter_targets.R::letter_numbers_build
 add("clergy_deaths", demo$deaths, n = demo$deaths,
     note = "clergy deaths, ages 25-74, 2020-2024")
 add("clergy_male_n", demo$n_male, n = demo$n_male, note = "male decedents")
@@ -1236,29 +1339,18 @@ add("acs_clergy_workforce", round(wf[["est"]]), round(wf[["lo"]]),
            "(civilian 25-74, nonblank OCCP, participating jurisdictions), ",
            "2020-2024; SDR CI"))
 readr::write_csv(dplyr::bind_rows(ROWS), "results/demographics.csv")
-log_msg("  deaths %s | male %s (%.1f%%) | age %.1f (SD %.1f) | person-years %s",
-        format(demo$deaths, big.mark = ","), format(demo$n_male, big.mark = ","),
-        demo$pct_male, demo$mean_age, demo$sd_age,
-        format(round(demo$person_years), big.mark = ","))
-log_msg("  workforce %s (95%% CI, %s-%s)", format(round(wf[["est"]]), big.mark = ","),
-        format(round(wf[["lo"]]), big.mark = ","), format(round(wf[["hi"]]), big.mark = ","))
+log_msg("  deaths %s | male %.1f%% | age %.1f (SD %.1f) | workforce %s",
+        format(demo$deaths, big.mark = ","), demo$pct_male, demo$mean_age,
+        demo$sd_age, format(round(wf[["est"]]), big.mark = ","))
 
 ## ===========================================================================
 ## Section 4. Rates, rate ratios, and the Table
-## Results: "All-cause mortality was lower among clergy than among other
-## employed adults (rate ratio, 0.77; 95% CI, 0.75-0.78), with the largest
-## differences in drug poisoning (0.14), alcohol-induced causes (0.19), and
-## suicide (0.29). Obesity recorded anywhere on the certificate was more
-## common among clergy (rate ratio, 1.14; 95% CI, 1.04-1.24), but this
-## reflected COVID-19 certificates only (2.07); on certificates without
-## COVID-19, obesity (0.97) and diabetes (0.89) mentions were at parity."
-##
-## 4a: sex-only standardization (Phase 2 rows; the Table's count column and
-##     eTable 2's left column). 4b: harmonized standardization (the letter's
-##     quoted values, "_harm" rows) and the Table's rates. 4c: results/table1.csv.
+## Results: "Clergy mortality was lower than that of other employed adults
+## for all causes and far lower for drug poisoning, alcohol-induced causes,
+## and suicide (Table)." 4a: sex-only standardization (Table counts); 4b:
+## harmonized standardization (the letter's quoted values); 4c: the Table.
 ## ===========================================================================
 banner("Section 4a: sex-only standardized rate ratios")
-# adds verbatim from R/letter_targets.R::letter_numbers_build
 add_rr("rr_allcause", st("all_cause"), "all-cause, clergy vs other employed")
 add_rr("rr_drug", st("drug_any_intent"), "drug poisoning, any intent")
 add_rr("rr_alcohol", st("alcohol_induced"), "alcohol-induced")
@@ -1316,7 +1408,6 @@ for (nm in names(c(HARM_MAP, HARM_EXTRA))) {
 }
 harm <- dplyr::bind_rows(harm)
 readr::write_csv(harm, "results/rr_harmonized.csv")
-# "_harm" rows and the Table's rate rows, verbatim from letter_numbers_build
 for (i in which(harm$in_numbers_csv)) {
   add(paste0(harm$name[i], "_harm"), harm$harm_value[i], harm$harm_lower[i],
       harm$harm_upper[i], harm$clergy_deaths[i],
@@ -1337,17 +1428,11 @@ for (b in names(t1)) {
       hr$other_rate_hi, NA,
       "other employed rate per 100,000, harmonized standardization")
 }
-for (i in seq_len(nrow(harm))) {
-  log_msg("  %-28s harm %.2f (%.2f-%.2f)", harm$name[i], harm$harm_value[i],
-          harm$harm_lower[i], harm$harm_upper[i])
-}
 
 banner("Section 4c: the Table (results/table1.csv)")
 # construction verbatim from R/letter_targets.R::letter_table1_build, minus
-# the gt/docx rendering (gt is not on this repo's package list); counts are
-# the FULL category counts (sex-only rows) while rates and ratios are
-# standardized on the subset with known race/ethnicity -- reconciling the
-# 23,234 vs 23,220 count discrepancy (full repo decisions.md, 2026-08-27).
+# the gt/docx rendering; counts are the FULL category counts (sex-only rows)
+# while rates and ratios standardize on the known-race/ethnicity subset.
 computed_so_far <- dplyr::bind_rows(ROWS)
 tab <- do.call(rbind, lapply(seq_len(nrow(TABLE1_SPEC)), function(i) {
   b <- TABLE1_SPEC$base[i]
@@ -1373,41 +1458,48 @@ readr::write_csv(tab, "results/table1.csv")
 print(tab, right = FALSE, row.names = FALSE)
 
 ## ===========================================================================
-## Section 5. Period and age-band COVID-19 rate ratios
-## Results: "COVID-19 mortality was higher among clergy (rate ratio, 1.76;
-## 95% CI, 1.68-1.84), concentrated in 2020-2021 (2.05; 95% CI, 1.95-2.15)
-## and attenuated in 2022-2024 (1.06; 95% CI, 0.93-1.21). By age, the ratio
-## was 2.57 (95% CI, 2.25-2.94) at 45-54 years and 2.35 (95% CI, 2.17-2.53)
-## at 55-64 years, vs 1.42 (95% CI, 1.34-1.51) at 65-74 years."
-## (Computed in section 4b -- the same harmonized machinery; presented here.)
+## Section 5. Period, age-band, and year-specific COVID-19 rate ratios
+## Results: "COVID-19 mortality among clergy was 1.76 times that of other
+## employed adults. It was double in 2020-2021 (207.0 vs 101.1 per 100,000;
+## rate ratio, 2.05; 95% CI, 1.95-2.15) and at parity in 2022-2024 (1.06;
+## 95% CI, 0.93-1.21). The excess peaked at ages 45-54 (2.57) and 55-64
+## (2.35) (Table)." Year-specific rate ratios use year-matched denominators
+## (2020 = mean of the 2019 and 2021 ACS, as in Methods).
 ## ===========================================================================
-banner("Section 5: COVID-19 by period and age band (harmonized)")
+banner("Section 5: COVID-19 by period, age band, and single year")
+for (yy in c(2020L, 2021L)) {
+  a <- harm_asr(hd, hp, W, "clergy", "covid19", years = yy)
+  b <- harm_asr(hd, hp, W, "other_employed", "covid19", years = yy)
+  rr <- rate_ratio(a, b)
+  add(sprintf("rr_covid_%d", yy), round(unname(rr[["rr"]]), 2),
+      round(unname(rr[["lower"]]), 2), round(unname(rr[["upper"]]), 2),
+      a$deaths,
+      sprintf(paste0("COVID-19 rate ratio, %d alone, harmonized ",
+                     "standardization, year-matched ACS denominator"), yy))
+}
 pa <- dplyr::bind_rows(ROWS)
-pa <- pa[pa$name %in% c("rr_covid_underlying_harm", "rr_covid_2020_2021_harm",
-                        "rr_covid_2022_2024_harm", "rr_covid_age_45_54_harm",
-                        "rr_covid_age_55_64_harm", "rr_covid_age_65_74_harm"), ]
+pa <- pa[grepl("^rr_covid", pa$name), ]
 readr::write_csv(pa, "results/covid_periods_ages.csv")
 for (i in seq_len(nrow(pa))) {
-  log_msg("  %-28s %.2f (%.2f-%.2f)  n=%s", pa$name[i], pa$value[i],
-          pa$lower[i], pa$upper[i], format(pa$n[i], big.mark = ","))
+  log_msg("  %-28s %.2f (%.2f-%.2f)", pa$name[i], pa$value[i], pa$lower[i],
+          pa$upper[i])
 }
 
 ## ===========================================================================
-## Section 6. The PMR benchmark, 2020-2021
+## Section 6. The pooled PMR benchmark, 2020-2021
 ## Results: "Among 450 occupations, clergy had the highest COVID-19 PMR in
-## 2020-2021 (1.94; 95% CI, 1.87-2.01; 2,922 deaths) (Figure). Occupations
-## with comparable educational attainment were at or below the null:
-## physicians (0.94; 95% CI, 0.88-1.01), elementary and middle school
-## teachers (0.98; 95% CI, 0.95-1.01), and lawyers (0.68; 95% CI, 0.64-0.74).
-## Restricted to natural causes, the clergy PMR was 1.75 (95% CI, 1.69-1.82;
-## rank 2)." Also the expected/excess counts and observed/expected COVID-19
-## shares planned for draft 4, and the funeral-occupation contrast.
+## 2020-2021 (1.94; 95% CI, 1.87-2.01) (Figure). ... More than 1 in 4 clergy
+## deaths in 2020-2021 involved COVID-19 (2,922 of 11,123 [26.3%]) vs 1 in 8
+## expected (13.5%), an excess of 1,416 deaths. Excluding external causes,
+## clergy remained first (1.95). Additionally excluding tobacco-related and
+## alcohol-induced causes, clergy ranked second (1.75; 95% CI, 1.69-1.82).
+## Adjacent occupations were near the null: physicians (0.94), teachers
+## (0.98), counselors (0.99), social workers (0.97), and funeral workers
+## (1.15)."
 ## ===========================================================================
-banner("Section 6: proportional-mortality benchmark")
+banner("Section 6: pooled proportional-mortality benchmark")
 main <- pmr_by_occupation(pmr_deaths, strata = c("sex", "age5", "raceeth"))
 readr::write_csv(main, "results/pmr_benchmark.csv")
-log_msg("  wrote results/pmr_benchmark.csv (%d occupations)", nrow(main))
-# adds verbatim from R/letter_targets.R::letter_numbers_build
 cl <- main[main$occ == "2040", ][1, ]
 add_pmr("pmr_clergy", main, "2040",
         "COVID-19 PMR 2020-2021, sex x 5-y age x race/ethnicity")
@@ -1431,7 +1523,6 @@ add_pmr("pmr_lawyers", main, LETTER_REF_OCCS[["lawyers"]], "lawyers")
 r2 <- main[main$rank == 2L, ]
 add("pmr_rank2_occupation", round(r2$pmr, 2), round(r2$lo, 2), round(r2$hi, 2),
     r2$observed, r2$lab[1])                     # note carries the name
-# cause restriction: excluding external, alcohol-induced, and smoking-related
 nat <- pmr_by_occupation(pmr_deaths, strata = c("sex", "age5"),
                          cause_restriction = "natural")
 natcl <- nat[nat$occ == "2040", ][1, ]
@@ -1444,7 +1535,6 @@ add("pmr_natural_rank1_occupation", NA_real_, NA, NA, n1$observed, n1$lab[1])
 add("pmr_natural_rank1_value", round(n1$pmr, 2), round(n1$lo, 2),
     round(n1$hi, 2), n1$observed,
     "highest PMR excluding external, alcohol-induced, and smoking-related causes")
-# cause restriction: strict natural (external causes only excluded)
 nats <- pmr_by_occupation(pmr_deaths, strata = c("sex", "age5"),
                           cause_restriction = "strict_natural")
 ns_cl <- nats[nats$occ == "2040", ]
@@ -1457,8 +1547,6 @@ add("pmr_clergy_natural_strict_rank", ns_cl$rank,
 ns2 <- nats[nats$rank == 2L, ]
 add("pmr_natural_strict_rank2_occupation", round(ns2$pmr, 2), round(ns2$lo, 2),
     round(ns2$hi, 2), ns2$observed, ns2$lab[1])
-# expected/excess/share rows: all from the benchmark table's own expected
-# column -- never observed / PMR by hand (letter_numbers_build, 2026-08-28)
 clb <- main[main$occ == "2040", ]
 add("pmr_clergy_expected_2020_2021", round(clb$expected), n = clb$observed,
     note = "expected clergy COVID-19 deaths 2020-2021 at all-worker composition")
@@ -1470,27 +1558,96 @@ add("covid_share_clergy_2020_2021",
 add("covid_share_expected_2020_2021",
     round(100 * clb$expected / clb$denom_deaths, 1), n = clb$observed,
     note = "expected COVID-19 share at all-worker composition, %")
-log_msg("  clergy PMR %.2f (%.2f-%.2f), rank %d of %d, n=%s", cl$pmr, cl$lo,
-        cl$hi, cl$rank, cl$n_ranked, format(cl$observed, big.mark = ","))
-log_msg("  natural %.2f rank %d | strict natural %.2f rank %d",
-        natcl$pmr, natcl$rank, ns_cl$pmr, ns_cl$rank)
-log_msg("  expected %.0f, excess %.0f; shares %.1f%% observed vs %.1f%% expected",
-        clb$expected, clb$observed - clb$expected,
-        100 * clb$observed / clb$denom_deaths,
-        100 * clb$expected / clb$denom_deaths)
+add("clergy_deaths_2020_2021", clb$denom_deaths, n = clb$denom_deaths,
+    note = "clergy deaths 2020-2021, benchmark denominator (employed decedents)")
+log_msg("  clergy PMR %.2f (%.2f-%.2f), rank %d of %d", cl$pmr, cl$lo, cl$hi,
+        cl$rank, cl$n_ranked)
 
 ## ===========================================================================
-## Section 7. Community-and-social-services disaggregation (eTable 1)
-## Discussion: "Disaggregating that group, the excess was confined to
-## religious occupations: clergy (1.94), directors of religious activities
-## (1.45), and other religious workers (1.37) ranked 1st, 5th, and 12th of
-## 450, while social workers (0.97) and counselors (0.99) were at the null,
-## and the group PMR fell from 1.30 to 0.99 with religious occupations
-## removed."
+## Section 7. Year-specific PMR benchmarks
+## Results: "The excess was already second highest in 2020 (1.79; 95% CI,
+## 1.68-1.90)" -- reference composition within each year, >=100-death floor
+## within each year (363 occupations in 2020; 419 in 2021).
 ## ===========================================================================
-banner("Section 7: CSS disaggregation")
+banner("Section 7: year-specific benchmarks")
+yr_rows <- list()
+for (yy in c(2020L, 2021L)) {
+  dy <- build_pmr_deaths(years = yy)
+  ranked_y   <- pmr_by_occupation(dy, strata = c("sex", "age5", "raceeth"))
+  ranked_y50 <- pmr_by_occupation(dy, strata = c("sex", "age5", "raceeth"),
+                                  min_deaths = 50)
+  cly   <- ranked_y[ranked_y$occ == "2040", ][1, ]
+  cly50 <- ranked_y50[ranked_y50$occ == "2040", ][1, ]
+  add(sprintf("pmr_clergy_%d", yy), round(cly$pmr, 2), round(cly$lo, 2),
+      round(cly$hi, 2), cly$observed,
+      sprintf(paste0("clergy COVID-19 PMR, %d alone; expected %.0f; ",
+                     "reference composition within the year"),
+              yy, cly$expected))
+  add(sprintf("pmr_clergy_%d_rank", yy), cly$rank,
+      note = sprintf(paste0("rank among %d occupations with >=100 deaths ",
+                            "in %d; >=50-death floor (sensitivity): rank ",
+                            "%d of %d"),
+                     cly$n_ranked, yy, cly50$rank, cly50$n_ranked))
+  yr_rows[[length(yr_rows) + 1L]] <- tibble::tibble(
+    year = yy, observed = cly$observed, expected = round(cly$expected, 1),
+    pmr = round(cly$pmr, 3), lo = round(cly$lo, 3), hi = round(cly$hi, 3),
+    rank = cly$rank, n_ranked = cly$n_ranked)
+  log_msg("  %d: PMR %.2f (%.2f-%.2f), rank %d of %d", yy, cly$pmr, cly$lo,
+          cly$hi, cly$rank, cly$n_ranked)
+}
+readr::write_csv(dplyr::bind_rows(yr_rows), "results/pmr_by_year.csv")
+
+## ===========================================================================
+## Section 8. The within-2021 split
+## Results: "...widened after universal adult vaccine eligibility, from 1.77
+## in early 2021 to 2.18 thereafter." Boundary April 30, 2021 (all US adults
+## vaccine-eligible by April 19); month of death from the parquet; reference
+## composition within each period; clergy vs all employed, no ranking.
+## ===========================================================================
+banner("Section 8: within-2021 split at April 30")
+d21m <- pmr_deaths_2021_by_month()
+early <- clergy_pmr_of(d21m[d21m$month <= 4L, ])
+late  <- clergy_pmr_of(d21m[d21m$month >= 5L, ])
+stopifnot(early$observed + late$observed ==
+            sum(d21m$covid_underlying[d21m$occ == "2040"]))
+add("pmr_clergy_2021_jan_apr", round(early$pmr, 2), round(early$lo, 2),
+    round(early$hi, 2), early$observed,
+    sprintf(paste0("clergy COVID-19 PMR, 2021 Jan-Apr (boundary Apr 30; ",
+                   "adults vaccine-eligible Apr 19); expected %.0f"),
+            early$expected))
+add("pmr_clergy_2021_may_dec", round(late$pmr, 2), round(late$lo, 2),
+    round(late$hi, 2), late$observed,
+    sprintf("clergy COVID-19 PMR, 2021 May-Dec; expected %.0f",
+            late$expected))
+log_msg("  Jan-Apr %.2f (%.2f-%.2f) | May-Dec %.2f (%.2f-%.2f)",
+        early$pmr, early$lo, early$hi, late$pmr, late$lo, late$hi)
+
+## ===========================================================================
+## Section 9. Conditional obesity mention ratio among COVID-19 deaths
+## Discussion: "Among COVID-19 deaths, obesity was mentioned more often for
+## clergy (1.22; 95% CI, 1.09-1.37)..." (Population obesity rows for the
+## Table were computed in section 4.)
+## ===========================================================================
+banner("Section 9: conditional obesity mention ratio")
+oc <- obesity_conditional_covid()
+add("obesity_share_covid_certs_ratio", round(oc$ratio, 2), round(oc$lo, 2),
+    round(oc$hi, 2), oc$obs,
+    sprintf(paste0("obesity mentions per COVID-19-certificate death, clergy ",
+                   "vs other employed, standardized over sex x 5-y age x ",
+                   "race/ethnicity, 2020-2024; crude %.1f%% vs %.1f%%"),
+            100 * oc$clergy_share, 100 * oc$other_share))
+log_msg("  ratio %.2f (%.2f-%.2f); crude %.1f%% vs %.1f%%", oc$ratio, oc$lo,
+        oc$hi, 100 * oc$clergy_share, 100 * oc$other_share)
+
+## ===========================================================================
+## Section 10. CSS disaggregation and within-race/ethnicity ratios
+## Discussion: "That excess was confined to the group's religious
+## occupations, and the group fell to the null with them removed (eMethods).
+## The elevation was present within every racial and ethnic group
+## (eMethods)."
+## ===========================================================================
+banner("Section 10: CSS disaggregation and within-race ratios")
 css <- css_pmr_summary(pmr_deaths)
-# adds verbatim from R/letter_targets.R::letter_numbers_build
 add_pmr("pmr_directors_religious", css$table, "2050",
         "directors of religious activities and education")
 add("pmr_directors_religious_rank",
@@ -1512,23 +1669,10 @@ add("pmr_css_group_excl_clergy", round(ge$pmr, 2), round(ge$lo, 2),
     round(ge$hi, 2), ge$observed,
     "community and social services group PMR, excl. clergy-broad")
 css_disaggregation_build(pmr_deaths)   # writes results/css_disaggregation.csv
-log_msg("  group PMR %.2f -> %.2f excluding clergy-broad", ga$pmr, ge$pmr)
-
-## ===========================================================================
-## Section 8. Within-race/ethnicity clergy PMRs (eTable 3)
-## Discussion: "The elevation was present within every racial and ethnic
-## group (non-Hispanic White, 2.42 [95% CI, 2.30-2.54]; non-Hispanic Black,
-## 1.80 [95% CI, 1.66-1.95]; Hispanic, 1.83 [95% CI, 1.69-1.99]), and was
-## largest among non-Hispanic White clergy."
-##
-## COVID-19 share of deaths by race, computed from the same death records as
-## the benchmark. Origin: R/benchmark.R::covid_share_by_race, which the full
-## pipeline persisted as covid_share_by_race.csv and letter_targets.R Part C
-## read back; this repository has no persisted intermediates, so the same
-## quantities are computed here directly (see DECISIONS). Records with
-## unknown race/ethnicity are excluded, as there.
-## ===========================================================================
-banner("Section 8: within-race/ethnicity COVID-19 share ratios")
+# COVID-19 share of deaths by race, from the same records as the benchmark
+# (origin: R/benchmark.R::covid_share_by_race + letter_numbers_build Part C;
+# this repository has no persisted intermediates, so the identical
+# quantities are computed directly; unknown race/ethnicity excluded).
 sh <- pmr_deaths[pmr_deaths$raceeth != "unknown", ]
 race_tab <- sh |>
   group_by(raceeth) |>
@@ -1545,8 +1689,6 @@ race_tab <- sh |>
          suppressed = clergy_covid < SUPPRESS_UNDER) |>
   arrange(desc(clergy_deaths))
 readr::write_csv(race_tab, "results/covid_share_by_race.csv")
-# share rows, verbatim semantics of letter_numbers_build::share_ratio
-# (value = clergy share / all-employed share; n = clergy deaths in the group)
 for (nm in c(white = "nh_white", black = "nh_black", hispanic = "hispanic")) {
   lab <- names(which(c(white = "nh_white", black = "nh_black",
                        hispanic = "hispanic") == nm))
@@ -1554,63 +1696,43 @@ for (nm in c(white = "nh_white", black = "nh_black", hispanic = "hispanic")) {
   add(paste0("pmr_share_", lab), round(row$ratio, 2), n = row$clergy_deaths,
       note = sprintf("COVID share of deaths, clergy vs all employed, %s", nm))
 }
-# within-race PMRs, verbatim from letter_numbers_build Part C: value =
-# observed clergy COVID deaths / expected at the all-employed within-race
-# share; exact Poisson CI on the observed count
 part_c <- c(pmr_clergy_nhwhite = "nh_white", pmr_clergy_nhblack = "nh_black",
             pmr_clergy_hispanic = "hispanic")
 for (nm in names(part_c)) {
   row <- race_tab[race_tab$raceeth == part_c[[nm]], ][1, ]
   obs <- row$clergy_covid
   expd <- row$clergy_deaths * row$ref_covid / row$ref_deaths
-  stopifnot(abs(obs / expd - row$ratio) < 0.005)   # matches the stored ratio
+  stopifnot(abs(obs / expd - row$ratio) < 0.005)
   add(nm, round(obs / expd, 2),
       round(stats::qgamma(0.025, obs) / expd, 2),
       round(stats::qgamma(0.975, obs + 1) / expd, 2), obs,
       sprintf("within-%s COVID share ratio, clergy vs all employed, 2020-2021",
               part_c[[nm]]))
-  log_msg("  %-10s clergy %5.1f%% vs all employed %5.1f%%  ratio %.2f  (n=%s)",
-          part_c[[nm]], row$clergy_pct, row$ref_pct, row$ratio,
-          format(row$clergy_deaths, big.mark = ","))
 }
 
 ## ===========================================================================
-## Section 9. Geography bound
-## Methods: "In a post hoc check using region-level death counts from CDC
-## WONDER, the COVID-19 share of deaths expected from clergy's distribution
-## across Census region, age group, and sex was 1.08 times that expected for
-## other employed adults (region alone, 1.00), bounding the contribution of
-## residential geography."
+## Section 11. Geography bound
+## Discussion: "It was not explained by clergy's regional distribution
+## (eMethods)."
 ##
-## wonder_covid_region.csv is SHIPPED with this repository because CDC WONDER
-## is an interactive system with data-use terms that must be accepted by a
-## person. To regenerate it (retrieved 2026-08-27; checksums in the file
-## header), run this query at https://wonder.cdc.gov/ucd-icd10-expanded.html
-## (database: Underlying Cause of Death, 2018-2024, Single Race):
-##
-##   Run FOUR times (2 years x 2 cause sets) because the participating
-##   jurisdictions differ by year:
-##     Runs 1-2 (year 2020): States = ALL EXCEPT Arizona, Iowa, North
-##       Carolina, Rhode Island, District of Columbia
-##     Runs 3-4 (year 2021): States = ALL EXCEPT Rhode Island, District of
-##       Columbia
-##     Group results by: Census Region; Ten-Year Age Groups; Gender; Year
-##     Ages: 25-34, 35-44, 45-54, 55-64, 65-74
-##     Year: 2020 (runs 1-2) or 2021 (runs 3-4)
-##     Cause of death: runs 1 and 3 = ALL causes;
-##                     runs 2 and 4 = ICD-10 code U07.1 (COVID-19)
-##   Export each result, then combine into ONE csv with columns
-##     year, region, age10, sex, total_deaths, covid_deaths
-##   (one row per year x region x age group x sex; 80 rows).
+## wonder_covid_region.csv is SHIPPED because CDC WONDER is interactive with
+## data-use terms a person must accept. To regenerate (database: Underlying
+## Cause of Death, 2018-2024, Single Race, wonder.cdc.gov), run FOUR queries,
+## each grouped by Census Region, Ten-Year Age Groups (25-34..65-74), and
+## Gender (the eMethods 6 table):
+##   Query 1: year 2020, all states except AZ IA NC RI DC, all causes
+##   Query 2: year 2020, same states, ICD-10 U07.1 (COVID-19)
+##   Query 3: year 2021, all states except RI DC, all causes
+##   Query 4: year 2021, same states, ICD-10 U07.1 (COVID-19)
+## Combine into one table: year, region, age10, sex, total_deaths,
+## covid_deaths (80 rows).
 ## ===========================================================================
-banner("Section 9: geographic composition-only bound")
+banner("Section 11: geographic composition-only bound")
 gv <- geo_bound_values(pmr_deaths)
 if (is.null(gv)) {
-  log_msg("STOP: wonder_covid_region.csv is missing; see the comment block")
-  log_msg("above for the CDC WONDER query that regenerates it.")
+  log_msg("STOP: wonder_covid_region.csv is missing; see the comment block above.")
   quit(status = 1)
 }
-# adds verbatim from R/letter_targets.R::letter_numbers_build
 add("pmr_geo_composition_only", round(unname(gv$main["clergy"]), 2),
     round(unname(gv$lo), 2), round(unname(gv$hi), 2), NA,
     "composition-only PMR: clergy regional/age/sex mix alone")
@@ -1626,35 +1748,26 @@ geo_out <- tibble::tibble(
                "composition_only_region_only_clergy",
                "observed_pmr_clergy", "geography_adjusted_pmr_clergy"),
   value = round(c(gv$main["clergy"], gv$main["clergy_broad"],
-                  gv$region_only["clergy"], gv$cl$pmr, gv$adj), 3),
-  lower = c(round(gv$lo, 3), NA, round(gv$ro_lo, 3), round(gv$cl$lo, 2), NA),
-  upper = c(round(gv$hi, 3), NA, round(gv$ro_hi, 3), round(gv$cl$hi, 2), NA))
+                  gv$region_only["clergy"], gv$cl$pmr, gv$adj), 3))
 readr::write_csv(geo_out, "results/geo_bound.csv")
-for (i in seq_len(nrow(geo_out))) {
-  log_msg("  %-42s %s", geo_out$quantity[i], geo_out$value[i])
-}
 
 ## ===========================================================================
-## Section 10. The Figure
+## Section 12. The Figure
 ## "Standardized COVID-19 proportional mortality ratios, 2020-2021, for 450
-## occupations with >=100 deaths, with 95% CIs, ranked; clergy and reference
-## occupations labeled. Ratio axis on log scale."
-## letter_figure_build() (extracted above) writes results/figure1.pdf,
-## results/figure1.png (300 dpi) and results/figure1_points.csv with the
-## same aesthetic spec as the letter figure.
+## US occupations with >=100 deaths, ranked, with 95% CIs. Clergy (filled
+## diamond) and reference occupations labeled. Ratio axis on log scale."
 ## ===========================================================================
-banner("Section 10: the Figure")
-letter_figure_build(pmr_deaths)
+banner("Section 12: the Figure")
+letter_figure_build(pmr_deaths)   # results/figure1.pdf, figure1.png
 
 ## ===========================================================================
-## Section 11. Verification against the shipped numbers.csv
+## Section 13. Verification against the shipped numbers.csv
 ## Every statistic recomputed above is compared, at its stored rounding, with
-## the shipped numbers.csv (the letter's single source of numbers). One
-## PASS/FAIL line per statistic; any FAIL exits with a nonzero status.
-## This block is not optional: if a statistic does not reproduce, the right
-## response is to report it, not to adjust either side.
+## the shipped numbers.csv. One PASS/FAIL line per statistic; any FAIL exits
+## nonzero. If a statistic does not reproduce, report it - never adjust
+## either side.
 ## ===========================================================================
-banner("Section 11: verification against numbers.csv (98 statistics)")
+banner("Section 13: verification against numbers.csv (108 statistics)")
 shipped  <- readr::read_csv("numbers.csv", show_col_types = FALSE)
 computed <- dplyr::bind_rows(ROWS)
 stopifnot(!any(duplicated(computed$name)))
