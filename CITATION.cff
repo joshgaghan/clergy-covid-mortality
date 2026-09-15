@@ -9,8 +9,8 @@ authors:
 version: submission-v1
 date-released: "2026-09-14"
 license: MIT
-repository-code: "[GitHub URL]"
-doi: "[Zenodo DOI]"
+repository-code: "https://github.com/joshgaghan/clergy-covid-mortality"
+doi: "10.5281/zenodo.22773003"
 preferred-citation:
   type: article
   title: "COVID-19 Mortality Among US Clergy, 2020-2024"
@@ -19,6 +19,5 @@ preferred-citation:
       given-names: Josh
     - family-names: Eagle
       given-names: David E.
-  journal: "JAMA Internal Medicine"
   year: 2026
   notes: "Submitted; update volume/pages/DOI on publication."

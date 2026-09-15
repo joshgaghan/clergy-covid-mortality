@@ -1,9 +1,7 @@
 # clergy-covid-letter
 
 Reproduces every number in the research letter **"COVID-19 Mortality Among
-US Clergy, 2020-2024"** (Gaghan & Eagle, submitted to *JAMA Internal
-Medicine*; citation to be updated on publication) from public data, in two
-R scripts. The archival record is the full pipeline repository at tag
+US Clergy, 2020-2024"** The archival record is the full pipeline repository at tag
 `jamaim-v3` ([REPO-URL]), from which all analysis code here is extracted
 verbatim.
 
