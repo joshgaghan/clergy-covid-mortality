@@ -1309,3 +1309,22 @@ timestamp precedes the result.)
   routines ... base R, without statistical extension packages") verified;
   the period-ranking floor rationale was dropped (the audit had found the
   floors mild: 355 and 417).
+
+## 2026-11-11 — SUPERSEDES 2026-11-10 on the race-ratio disclosure
+
+The response letter now reports the within-group recomputation as its
+second self-identified correction (alongside the cause-restriction strata
+correction), reversing the 2026-11-10 decision to record it in CHANGES.md
+and this log only. Reason: the crude within-group values are in the
+submission's numbers.csv (letter block) and reproduce at the public
+repository's submission-v1 release, so the change from them is a
+correction to published-as-submitted estimates, not only to response-letter
+text. The Research Letter itself printed no within-group values; the crude
+rows stand behind its statement that the elevation was present within every
+racial and ethnic group. Letter v9 carries the paragraph (1.72 to 2.42
+becomes 1.68, 1.73, 2.25, 1.56); supplement v6 adds the 2022-2024
+restricted-benchmark CIs (1.53 [1.40-1.67]; 1.39 [1.27-1.51]) and the
+2022-2024 all-cause rate ratio (0.70 [0.68-0.73]) to eMethods 5. The
+public CHANGES.md correction 2 was reworded to the same effect (the crude
+ratios were never "reported in a first-round response"; no response had
+been sent).

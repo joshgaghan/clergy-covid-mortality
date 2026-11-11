@@ -23,10 +23,14 @@ three parsed fields, and the rows and exhibits they produce.
    REVISION_STRATA tag. Reported in the response letter.
 
 2. **Within-group race and ethnicity ratios: standardized within group.**
-   The within-group ratios the first-round response reported (Hispanic 1.83;
-   non-Hispanic Black 1.80; non-Hispanic White 2.42; non-Hispanic other
-   1.72) were crude within-group share ratios: no sex or age stratification,
-   which clergy's older age structure inflates. The revision reports each
+   The within-group ratios in the submission's numbers.csv (letter block:
+   Hispanic 1.83; non-Hispanic Black 1.80; non-Hispanic White 2.42; the
+   non-Hispanic other value, 1.72, was computed the same way during the
+   revision) are crude within-group share ratios: no sex or age
+   stratification, which clergy's older age structure inflates. They stand
+   behind the Research Letter's statement that the elevation was present
+   within every racial and ethnic group; the Research Letter itself printed
+   no values. The revision reports each
    group's ratio as the race-specific component of the pooled benchmark
    (sex x 5-year age within the group, the group's own reference
    composition): Hispanic 1.68 (1.55-1.82); non-Hispanic Black 1.73
@@ -36,7 +40,8 @@ three parsed fields, and the rows and exhibits they produce.
    components pool to exactly the published 1.94; verify.R enforces this
    identity for Figure 2B. Every interval continues to exclude 1,
    non-Hispanic White remains the largest, and no conclusion changes. The
-   crude rows remain in the letter block of numbers.csv.
+   crude rows remain in the letter block of numbers.csv and reproduce at
+   `submission-v1`. Reported in the response letter.
 
 ## Additions
 

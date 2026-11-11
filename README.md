@@ -1,8 +1,7 @@
 # clergy-covid-mortality
 
 Reproduces every number in **"COVID-19 Mortality Among US Clergy,
-2020-2024"** (Original Investigation revision of manuscript IMD26-3674) and
-its supplement. Tag `submission-v1` reproduces the originally submitted
+2020-2024"** and its supplement. Tag `submission-v1` reproduces the originally submitted
 Research Letter; this branch adds the revision's analyses. The archival
 record is the full pipeline repository, from which all analysis code here is
 extracted verbatim; CHANGES.md lists what changed between the submission and
