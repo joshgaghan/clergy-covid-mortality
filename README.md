@@ -21,20 +21,21 @@ the revision, including two corrections to submitted estimates.
 ## Run
 
 ```
-Rscript 01_data.R              # downloads ~3.6 GB, parses to parquet; ~10 min
-Rscript 02_analysis.R          # the letter analyses + verification;  ~1 min
-Rscript 03_coverage.R          # coverage, population, floors;        ~2 min
-Rscript 04_benchmarks.R        # restrictions, 2022-24, race groups;  ~2 min
-Rscript 05_rank_bootstrap.R    # rank bootstrap (seed 20261106);      ~2 min
-Rscript 06_misclassification.R # mixture bound + simulation;          ~1 min
-Rscript 07_education.R         # education calibration + eFigure;     ~6 min
-Rscript 08_age_retirement.R    # age windows, late retirement;        ~4 min
-Rscript 09_rates.R             # harmonized rate ratios;              ~6 min
-Rscript 10_exhibits.R          # Table 1 + eTables 1-3, guarded;      ~1 min
-Rscript 11_figures.R           # Figures 1 and 2;                     ~1 min
-Rscript verify.R               # reruns 02-11, checks every committed
-                               # numbers.csv row to 1e-8 and the Figure 2
-                               # same-strata identities; ~25 min
+Rscript 01_data.R              # downloads ~3.6 GB, parses to parquet; ~9 min
+Rscript 02_analysis.R          # the letter analyses + verification
+Rscript 03_coverage.R          # coverage, population, floors
+Rscript 04_benchmarks.R        # restrictions, 2022-24, race groups
+Rscript 05_rank_bootstrap.R    # rank bootstrap (seed 20261106)
+Rscript 06_misclassification.R # mixture bound + simulation
+Rscript 07_education.R         # education calibration + eFigure
+Rscript 08_age_retirement.R    # age windows, late retirement
+Rscript 09_rates.R             # harmonized rate ratios
+Rscript 10_exhibits.R          # Table 1 + eTables 1-3, guarded
+Rscript 11_figures.R           # Figures 1 and 2
+Rscript verify.R               # reruns 02-11 and checks every committed
+                               # numbers.csv row to 1e-8 plus the Figure 2
+                               # same-strata identities; ~2 min for the
+                               # whole chain (ACCEPTANCE.md)
 ```
 
 Scripts 03-11 are one-per-analysis-family and idempotent: each replaces its
