@@ -15,3 +15,6 @@ hispanic_origin,484,486,character
 race_recode_40,489,490,character
 occ_code4,806,809,character
 record_axis_raw,344,443,character
+education_2003,63,63,character
+education_flag,64,64,character
+ind_code4,812,815,character

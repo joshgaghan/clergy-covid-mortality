@@ -28,6 +28,13 @@
 #             (base R has no SHA-256); if neither tool exists the check is
 #             skipped with a warning, and the control-total canary at the
 #             end of this script is the backstop.
+# 2026-11-10  REVISION: three NVSS fields (education_2003 at 63, education_flag
+#             at 64, ind_code4 at 812-815; positions identical in every year's
+#             layout) and the ACS SCHL variable are added for the revision's
+#             education-calibration and industry analyses (scripts 03-12).
+#             A parquet written by the submission version lacks the new
+#             columns, so the skip-if-present check now also verifies the
+#             schema and reparses when a column is missing.
 # 2026-09-14  The supplemental not-employed occupation codes are recovered
 #             from occ_crosswalk.csv's mapping_kind column rather than the
 #             archival repository's occ_groups.yaml, keeping this repo
@@ -205,7 +212,7 @@ contributing_flag <- function(record_axis_raw, rule, n_slots = 20L, slot_w = 5L)
 }
 
 ## ---- 3. Parse NVSS (adapted from R/parse_nvss.R) --------------------------
-# Fields the letter needs, and nothing else: resident_status, sex, age_detail,
+# Fields the letter and the revision need: resident_status, sex, age_detail,
 # data_year, month_of_death (the submitted analyses split 2021 by month; it
 # is parsed here for every year, which removes any need for the record-order
 # re-read used in the full repository), icd10_underlying, hispanic_origin,
@@ -217,7 +224,17 @@ RECORD_LEN <- 817L
 
 parse_nvss_year <- function(year) {
   out <- sprintf("data/nvss_%d.parquet", year)
-  if (file.exists(out)) { log_msg("  skip %d: %s exists", year, out); return(invisible()) }
+  NVSS_REQUIRED <- c("educ_2003", "educ_flag", "ind_code4")
+  if (file.exists(out)) {
+    have <- names(arrow::open_dataset(out)$schema)
+    if (all(NVSS_REQUIRED %in% have)) {
+      log_msg("  skip %d: %s exists with the revision columns", year, out)
+      return(invisible())
+    }
+    log_msg("  %d: %s lacks %s; reparsing", year, out,
+            paste(setdiff(NVSS_REQUIRED, have), collapse = ", "))
+    unlink(out)
+  }
   t0 <- Sys.time()
   lay <- readr::read_csv(sprintf("layouts/nvss_%d.csv", year), comment = "#",
                          col_types = "ciic", progress = FALSE)
@@ -262,7 +279,10 @@ parse_nvss_year <- function(year) {
     hispanic_origin  = int(raw$hispanic_origin),
     race_recode_40   = int(raw$race_recode_40),
     icd10_underlying = toupper(chr(raw$icd10_underlying)),
-    occ_code4        = chr(raw$occ_code4))
+    occ_code4        = chr(raw$occ_code4),
+    educ_2003        = int(raw$education_2003),
+    educ_flag        = int(raw$education_flag),
+    ind_code4        = chr(raw$ind_code4))
   df$cause_cat   <- classify_causes(df$icd10_underlying)
   df$cancer_site <- cancer_site(df$icd10_underlying, df$cause_cat)
   for (r in indicator_rules())
@@ -287,7 +307,8 @@ log_msg("== NVSS fixed-width -> parquet ==")
 for (y in YEARS) parse_nvss_year(y)
 
 ## ---- 4. Parse ACS PUMS (adapted from R/parse_acs.R) -----------------------
-# Fields the letter needs: state, AGEP, SEX, RAC1P, HISP, OCCP, ESR, PWGTP and
+# Fields the letter and the revision need: state, AGEP, SEX, RAC1P, HISP, OCCP,
+# ESR, SCHL, PWGTP and
 # the 80 replicate weights PWGTP1-80 (for the workforce and geography CIs).
 
 REPLICATES <- sprintf("PWGTP%d", 1:80)
@@ -295,7 +316,14 @@ ACS_MIN_AGE <- 15L   # NVSS excludes decedents under 15 from I&O coding entirely
 
 parse_acs_year <- function(year) {
   out <- sprintf("data/acs_%d.parquet", year)
-  if (file.exists(out)) { log_msg("  skip %d: %s exists", year, out); return(invisible()) }
+  if (file.exists(out)) {
+    if ("SCHL" %in% names(arrow::open_dataset(out)$schema)) {
+      log_msg("  skip %d: %s exists with the revision columns", year, out)
+      return(invisible())
+    }
+    log_msg("  %d: %s lacks SCHL; reparsing", year, out)
+    unlink(out)
+  }
   t0 <- Sys.time()
   z <- sprintf("data/raw/acs_pus_%d.zip", year)
   csvs <- grep("\\.csv$", unzip(z, list = TRUE)$Name, value = TRUE, ignore.case = TRUE)
@@ -309,7 +337,7 @@ parse_acs_year <- function(year) {
     hdr <- names(readr::read_csv(f, n_max = 0, show_col_types = FALSE, progress = FALSE))
     state_col <- intersect(c("ST", "STATE"), hdr)[1]
     if (is.na(state_col)) stop_hard("%d: no state column in %s", year, m)
-    want <- c("AGEP", "SEX", "RAC1P", "HISP", "OCCP", "ESR", "PWGTP",
+    want <- c("AGEP", "SEX", "RAC1P", "HISP", "OCCP", "ESR", "PWGTP", "SCHL",
               REPLICATES, state_col)
     miss <- setdiff(want, hdr)
     if (length(miss)) stop_hard("%d: %s lacks %s", year, m, paste(miss, collapse = ", "))
@@ -328,6 +356,7 @@ parse_acs_year <- function(year) {
       HISP  = as.integer(d$HISP),
       occ_code4 = ifelse(grepl("^[0-9]{4}$", occ), occ, NA_character_),
       ESR   = as.integer(d$ESR),
+      SCHL  = as.integer(d$SCHL),
       PWGTP = as.integer(d$PWGTP))
     # NA-preserving: ESR is missing only for 15-year-olds, but the derivation
     # matches the archival parquet exactly (parse_acs.R).

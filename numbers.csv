@@ -1,109 +1,207 @@
-name,value,lower,upper,n,note
-clergy_deaths,23234,NA,NA,23234,"clergy deaths, ages 25-74, 2020-2024"
-clergy_male_n,19128,NA,NA,19128,male decedents
-clergy_male_pct,82.3,NA,NA,NA,percent male
-clergy_age_mean,65.3,NA,NA,NA,"mean age at death, y"
-clergy_age_sd,8.3,NA,NA,NA,"SD of age at death, y"
-clergy_person_years,2448562,NA,NA,NA,"ACS person-years, primary denominator"
-rr_allcause,0.8,0.78,0.81,23234,"all-cause, clergy vs other employed"
-rr_drug,0.14,0.12,0.17,176,"drug poisoning, any intent"
-rr_alcohol,0.19,0.15,0.23,169,alcohol-induced
-rr_suicide,0.31,0.26,0.37,203,suicide
-rr_diabetes_underlying,1,0.93,1.08,1173,diabetes as underlying cause
-rr_obesity_anywhere,1.12,1.04,1.21,1104,obesity recorded anywhere on the certificate
-rr_covid_underlying,1.69,1.62,1.77,3451,"COVID-19 underlying, 2020-2024"
-rr_covid_2020_2021,1.85,1.76,1.94,2922,"COVID-19 underlying, 2020-2021"
-rr_covid_2022_2024,1.06,0.95,1.18,529,"COVID-19 underlying, 2022-2024"
-rr_covid_age_45_54,2.16,1.9,2.46,359,"COVID-19, ages 45-54"
-rr_covid_age_55_64,2.18,2.02,2.34,987,"COVID-19, ages 55-64"
-rr_covid_age_65_74,1.46,1.39,1.54,2024,"COVID-19, ages 65-74"
-rr_obesity_covid_cert,1.94,1.67,2.26,293,"obesity mention, deaths with COVID-19 on the record"
-rr_diabetes_covid_cert,1.79,1.63,1.97,721,"diabetes mention, deaths with COVID-19 on the record"
-rr_obesity_noncovid_cert,0.97,0.89,1.07,811,"obesity mention, deaths without COVID-19 on the record"
-rr_diabetes_noncovid_cert,0.94,0.9,0.98,3401,"diabetes mention, deaths without COVID-19 on the record"
-pmr_clergy,1.94,1.87,2.01,2922,"COVID-19 PMR 2020-2021, sex x 5-y age x race/ethnicity"
-pmr_clergy_deaths,2922,NA,NA,2922,"observed clergy COVID-19 deaths, 2020-2021"
-pmr_clergy_rank,1,NA,NA,NA,clergy rank on the PMR
-pmr_n_occupations,450,NA,NA,NA,"occupations with >=100 deaths, 2020-2021"
-pmr_taxi,1.48,1.41,1.55,1652,taxi drivers and chauffeurs
-pmr_teachers,0.98,0.95,1.01,5524,elementary and middle school teachers
-pmr_morticians,1.15,0.98,1.35,154,"morticians, undertakers, and funeral arrangers"
-pmr_embalmers,1.06,0.79,1.39,52,"embalmers, crematory operators, and funeral attendants"
-pmr_childcare,1.31,1.25,1.36,2159,childcare workers
-pmr_physicians,0.94,0.88,1.01,807,physicians and surgeons
-pmr_lawyers,0.68,0.64,0.74,759,lawyers
-pmr_clergy_natural,1.75,1.69,1.82,2922,clergy PMR restricted to natural causes
-pmr_clergy_natural_rank,2,NA,NA,NA,"clergy rank, natural-causes restriction"
-pmr_directors_religious,1.45,1.1,1.86,60,directors of religious activities and education
-pmr_directors_religious_rank,5,NA,NA,NA,rank among occupations with >=100 deaths
-pmr_religious_other,1.37,1.19,1.56,213,"religious workers, all other"
-pmr_religious_other_rank,12,NA,NA,NA,rank among occupations with >=100 deaths
-pmr_counselors,0.99,0.94,1.05,1182,counselors (2018 codes 2001-2006 pooled)
-pmr_social_workers,0.97,0.93,1.02,1520,social workers (2018 codes 2011-2014 pooled)
-pmr_css_group,1.3,1.26,1.33,6385,community and social services group PMR
-pmr_css_group_excl_clergy,0.99,0.96,1.02,3190,"community and social services group PMR, excl. clergy-broad"
-pmr_share_white,2.42,NA,NA,6622,"COVID share of deaths, clergy vs all employed, nh_white"
-pmr_share_black,1.8,NA,NA,2616,"COVID share of deaths, clergy vs all employed, nh_black"
-pmr_share_hispanic,1.83,NA,NA,1234,"COVID share of deaths, clergy vs all employed, hispanic"
-rr_allcause_harm,0.77,0.75,0.78,23220,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_drug_harm,0.14,0.12,0.17,176,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_alcohol_harm,0.19,0.15,0.23,168,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_suicide_harm,0.29,0.24,0.34,203,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_diabetes_underlying_harm,0.97,0.9,1.04,1173,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_obesity_anywhere_harm,1.14,1.04,1.24,1103,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_covid_underlying_harm,1.76,1.68,1.84,3450,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_covid_2020_2021_harm,2.05,1.95,2.15,2921,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_covid_2022_2024_harm,1.06,0.93,1.21,529,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_covid_age_45_54_harm,2.57,2.25,2.94,359,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_covid_age_55_64_harm,2.35,2.17,2.53,987,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_covid_age_65_74_harm,1.42,1.34,1.51,2023,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_obesity_covid_cert_harm,2.07,1.74,2.45,293,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_diabetes_covid_cert_harm,1.84,1.66,2.04,721,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_obesity_noncovid_cert_harm,0.97,0.87,1.08,810,harmonized standardization: sex x 5-y age x race/ethnicity
-rr_diabetes_noncovid_cert_harm,0.89,0.85,0.93,3398,harmonized standardization: sex x 5-y age x race/ethnicity
-pmr_clergy_nhwhite,2.42,2.3,2.54,1535,"within-nh_white COVID share ratio, clergy vs all employed, 2020-2021"
-pmr_clergy_nhblack,1.8,1.66,1.95,623,"within-nh_black COVID share ratio, clergy vs all employed, 2020-2021"
-pmr_clergy_hispanic,1.83,1.69,1.99,585,"within-hispanic COVID share ratio, clergy vs all employed, 2020-2021"
-pmr_geo_composition_only,1.08,1.07,1.09,NA,composition-only PMR: clergy regional/age/sex mix alone
-pmr_geo_composition_only_broad,1.07,NA,NA,NA,"composition-only PMR, clergy-broad"
-pmr_geo_adjusted,1.8,NA,NA,NA,observed 1.94 / composition-only
-rate_clergy_allcause_harm,564.6,554.4,575.4,23220,"clergy rate per 100,000, harmonized standardization"
-rate_other_allcause_harm,737.2,736.6,737.8,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_drug_harm,5.8,4.7,7.7,176,"clergy rate per 100,000, harmonized standardization"
-rate_other_drug_harm,40.8,40.7,41,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_alcohol_harm,4.3,3.5,6,168,"clergy rate per 100,000, harmonized standardization"
-rate_other_alcohol_harm,22.7,22.6,22.8,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_suicide_harm,5.4,4.5,7.2,203,"clergy rate per 100,000, harmonized standardization"
-rate_other_suicide_harm,18.8,18.7,18.9,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_covid_underlying_harm,85.6,81.7,90.2,3450,"clergy rate per 100,000, harmonized standardization"
-rate_other_covid_underlying_harm,48.7,48.5,48.9,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_covid_2020_2021_harm,207,196.8,221.3,2921,"clergy rate per 100,000, harmonized standardization"
-rate_other_covid_2020_2021_harm,101.1,100.7,101.5,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_covid_2022_2024_harm,18.7,16.4,22.7,529,"clergy rate per 100,000, harmonized standardization"
-rate_other_covid_2022_2024_harm,17.6,17.5,17.8,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_obesity_covid_cert_harm,8.9,7.5,11.2,293,"clergy rate per 100,000, harmonized standardization"
-rate_other_obesity_covid_cert_harm,4.3,4.3,4.4,NA,"other employed rate per 100,000, harmonized standardization"
-rate_clergy_obesity_noncovid_cert_harm,23.6,21.2,26.8,810,"clergy rate per 100,000, harmonized standardization"
-rate_other_obesity_noncovid_cert_harm,24.3,24.2,24.4,NA,"other employed rate per 100,000, harmonized standardization"
-pmr_clergy_expected_2020_2021,1506,NA,NA,2922,expected clergy COVID-19 deaths 2020-2021 at all-worker composition
-excess_covid_deaths_2020_2021,1416,NA,NA,2922,observed minus expected clergy COVID-19 deaths
-covid_share_clergy_2020_2021,26.3,NA,NA,2922,"COVID-19 share of clergy deaths 2020-2021, %"
-covid_share_expected_2020_2021,13.5,NA,NA,2922,"expected COVID-19 share at all-worker composition, %"
-clergy_deaths_2020_2021,11123,NA,NA,11123,"clergy deaths 2020-2021, benchmark denominator (employed decedents)"
-obesity_share_covid_certs_ratio,1.22,1.09,1.37,293,"obesity mentions per COVID-19-certificate death, clergy vs other employed, standardized over sex x 5-y age x race/ethnicity, 2020-2024; crude 7.9% vs 8.3%"
-acs_clergy_workforce,489712,480465,498959,NA,"mean annual ACS-weighted clergy, primary denominator (civilian 25-74, nonblank OCCP, participating jurisdictions), 2020-2024; SDR CI"
-pmr_rank2_occupation,1.58,1.08,2.23,32,"Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders"
-pmr_natural_rank1_occupation,NA,NA,NA,72,"Graders and Sorters, Agricultural Products"
-pmr_natural_rank1_value,1.84,1.44,2.31,72,"highest PMR excluding external, alcohol-induced, and smoking-related causes"
-pmr_clergy_natural_strict,1.95,1.88,2.02,2922,clergy PMR restricted to natural causes (external causes excluded)
-pmr_clergy_natural_strict_rank,1,NA,NA,NA,"rank among 449 occupations, strict natural causes"
-pmr_natural_strict_rank2_occupation,1.9,1.49,2.4,72,"Graders and Sorters, Agricultural Products"
-pmr_geo_region_only,1,0.99,1,NA,region-only composition ratio; SDR CI from replicate weights
-pmr_clergy_2020,1.79,1.68,1.9,1057,"clergy COVID-19 PMR, 2020 alone; expected 591; reference composition within the year"
-pmr_clergy_2020_rank,2,NA,NA,NA,rank among 363 occupations with >=100 deaths in 2020; >=50-death floor (sensitivity): rank 2 of 363
-pmr_clergy_2021,2.02,1.93,2.11,1865,"clergy COVID-19 PMR, 2021 alone; expected 925; reference composition within the year"
-pmr_clergy_2021_rank,1,NA,NA,NA,rank among 419 occupations with >=100 deaths in 2021; >=50-death floor (sensitivity): rank 1 of 420
-pmr_clergy_2021_jan_apr,1.77,1.63,1.91,639,"clergy COVID-19 PMR, 2021 Jan-Apr (boundary Apr 30; adults vaccine-eligible Apr 19); expected 361"
-pmr_clergy_2021_may_dec,2.18,2.06,2.3,1226,"clergy COVID-19 PMR, 2021 May-Dec; expected 563"
-rr_covid_2020,2,1.85,2.17,1056,"COVID-19 rate ratio, 2020 alone, harmonized standardization, year-matched ACS denominator"
-rr_covid_2021,2.11,1.98,2.26,1865,"COVID-19 rate ratio, 2021 alone, harmonized standardization, year-matched ACS denominator"
+name,value,lower,upper,n,note,context
+clergy_deaths,23234,NA,NA,23234,"clergy deaths, ages 25-74, 2020-2024",NA
+clergy_male_n,19128,NA,NA,19128,male decedents,NA
+clergy_male_pct,82.3,NA,NA,NA,percent male,NA
+clergy_age_mean,65.3,NA,NA,NA,"mean age at death, y",NA
+clergy_age_sd,8.3,NA,NA,NA,"SD of age at death, y",NA
+clergy_person_years,2448562,NA,NA,NA,"ACS person-years, primary denominator",NA
+rr_allcause,0.8,0.78,0.81,23234,"all-cause, clergy vs other employed",NA
+rr_drug,0.14,0.12,0.17,176,"drug poisoning, any intent",NA
+rr_alcohol,0.19,0.15,0.23,169,alcohol-induced,NA
+rr_suicide,0.31,0.26,0.37,203,suicide,NA
+rr_diabetes_underlying,1,0.93,1.08,1173,diabetes as underlying cause,NA
+rr_obesity_anywhere,1.12,1.04,1.21,1104,obesity recorded anywhere on the certificate,NA
+rr_covid_underlying,1.69,1.62,1.77,3451,"COVID-19 underlying, 2020-2024",NA
+rr_covid_2020_2021,1.85,1.76,1.94,2922,"COVID-19 underlying, 2020-2021",NA
+rr_covid_2022_2024,1.06,0.95,1.18,529,"COVID-19 underlying, 2022-2024",NA
+rr_covid_age_45_54,2.16,1.9,2.46,359,"COVID-19, ages 45-54",NA
+rr_covid_age_55_64,2.18,2.02,2.34,987,"COVID-19, ages 55-64",NA
+rr_covid_age_65_74,1.46,1.39,1.54,2024,"COVID-19, ages 65-74",NA
+rr_obesity_covid_cert,1.94,1.67,2.26,293,"obesity mention, deaths with COVID-19 on the record",NA
+rr_diabetes_covid_cert,1.79,1.63,1.97,721,"diabetes mention, deaths with COVID-19 on the record",NA
+rr_obesity_noncovid_cert,0.97,0.89,1.07,811,"obesity mention, deaths without COVID-19 on the record",NA
+rr_diabetes_noncovid_cert,0.94,0.9,0.98,3401,"diabetes mention, deaths without COVID-19 on the record",NA
+pmr_clergy,1.94,1.87,2.01,2922,"COVID-19 PMR 2020-2021, sex x 5-y age x race/ethnicity",NA
+pmr_clergy_deaths,2922,NA,NA,2922,"observed clergy COVID-19 deaths, 2020-2021",NA
+pmr_clergy_rank,1,NA,NA,NA,clergy rank on the PMR,NA
+pmr_n_occupations,450,NA,NA,NA,"occupations with >=100 deaths, 2020-2021",NA
+pmr_taxi,1.48,1.41,1.55,1652,taxi drivers and chauffeurs,NA
+pmr_teachers,0.98,0.95,1.01,5524,elementary and middle school teachers,NA
+pmr_morticians,1.15,0.98,1.35,154,"morticians, undertakers, and funeral arrangers",NA
+pmr_embalmers,1.06,0.79,1.39,52,"embalmers, crematory operators, and funeral attendants",NA
+pmr_childcare,1.31,1.25,1.36,2159,childcare workers,NA
+pmr_physicians,0.94,0.88,1.01,807,physicians and surgeons,NA
+pmr_lawyers,0.68,0.64,0.74,759,lawyers,NA
+pmr_clergy_natural,1.75,1.69,1.82,2922,clergy PMR restricted to natural causes,NA
+pmr_clergy_natural_rank,2,NA,NA,NA,"clergy rank, natural-causes restriction",NA
+pmr_directors_religious,1.45,1.1,1.86,60,directors of religious activities and education,NA
+pmr_directors_religious_rank,5,NA,NA,NA,rank among occupations with >=100 deaths,NA
+pmr_religious_other,1.37,1.19,1.56,213,"religious workers, all other",NA
+pmr_religious_other_rank,12,NA,NA,NA,rank among occupations with >=100 deaths,NA
+pmr_counselors,0.99,0.94,1.05,1182,counselors (2018 codes 2001-2006 pooled),NA
+pmr_social_workers,0.97,0.93,1.02,1520,social workers (2018 codes 2011-2014 pooled),NA
+pmr_css_group,1.3,1.26,1.33,6385,community and social services group PMR,NA
+pmr_css_group_excl_clergy,0.99,0.96,1.02,3190,"community and social services group PMR, excl. clergy-broad",NA
+pmr_share_white,2.42,NA,NA,6622,"COVID share of deaths, clergy vs all employed, nh_white",NA
+pmr_share_black,1.8,NA,NA,2616,"COVID share of deaths, clergy vs all employed, nh_black",NA
+pmr_share_hispanic,1.83,NA,NA,1234,"COVID share of deaths, clergy vs all employed, hispanic",NA
+rr_allcause_harm,0.77,0.75,0.78,23220,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_drug_harm,0.14,0.12,0.17,176,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_alcohol_harm,0.19,0.15,0.23,168,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_suicide_harm,0.29,0.24,0.34,203,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_diabetes_underlying_harm,0.97,0.9,1.04,1173,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_obesity_anywhere_harm,1.14,1.04,1.24,1103,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_covid_underlying_harm,1.76,1.68,1.84,3450,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_covid_2020_2021_harm,2.05,1.95,2.15,2921,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_covid_2022_2024_harm,1.06,0.93,1.21,529,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_covid_age_45_54_harm,2.57,2.25,2.94,359,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_covid_age_55_64_harm,2.35,2.17,2.53,987,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_covid_age_65_74_harm,1.42,1.34,1.51,2023,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_obesity_covid_cert_harm,2.07,1.74,2.45,293,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_diabetes_covid_cert_harm,1.84,1.66,2.04,721,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_obesity_noncovid_cert_harm,0.97,0.87,1.08,810,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+rr_diabetes_noncovid_cert_harm,0.89,0.85,0.93,3398,harmonized standardization: sex x 5-y age x race/ethnicity,NA
+pmr_clergy_nhwhite,2.42,2.3,2.54,1535,"within-nh_white COVID share ratio, clergy vs all employed, 2020-2021",NA
+pmr_clergy_nhblack,1.8,1.66,1.95,623,"within-nh_black COVID share ratio, clergy vs all employed, 2020-2021",NA
+pmr_clergy_hispanic,1.83,1.69,1.99,585,"within-hispanic COVID share ratio, clergy vs all employed, 2020-2021",NA
+pmr_geo_composition_only,1.08,1.07,1.09,NA,composition-only PMR: clergy regional/age/sex mix alone,NA
+pmr_geo_composition_only_broad,1.07,NA,NA,NA,"composition-only PMR, clergy-broad",NA
+pmr_geo_adjusted,1.8,NA,NA,NA,observed 1.94 / composition-only,NA
+rate_clergy_allcause_harm,564.6,554.4,575.4,23220,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_allcause_harm,737.2,736.6,737.8,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_drug_harm,5.8,4.7,7.7,176,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_drug_harm,40.8,40.7,41,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_alcohol_harm,4.3,3.5,6,168,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_alcohol_harm,22.7,22.6,22.8,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_suicide_harm,5.4,4.5,7.2,203,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_suicide_harm,18.8,18.7,18.9,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_covid_underlying_harm,85.6,81.7,90.2,3450,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_covid_underlying_harm,48.7,48.5,48.9,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_covid_2020_2021_harm,207,196.8,221.3,2921,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_covid_2020_2021_harm,101.1,100.7,101.5,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_covid_2022_2024_harm,18.7,16.4,22.7,529,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_covid_2022_2024_harm,17.6,17.5,17.8,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_obesity_covid_cert_harm,8.9,7.5,11.2,293,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_obesity_covid_cert_harm,4.3,4.3,4.4,NA,"other employed rate per 100,000, harmonized standardization",NA
+rate_clergy_obesity_noncovid_cert_harm,23.6,21.2,26.8,810,"clergy rate per 100,000, harmonized standardization",NA
+rate_other_obesity_noncovid_cert_harm,24.3,24.2,24.4,NA,"other employed rate per 100,000, harmonized standardization",NA
+pmr_clergy_expected_2020_2021,1506,NA,NA,2922,expected clergy COVID-19 deaths 2020-2021 at all-worker composition,NA
+excess_covid_deaths_2020_2021,1416,NA,NA,2922,observed minus expected clergy COVID-19 deaths,NA
+covid_share_clergy_2020_2021,26.3,NA,NA,2922,"COVID-19 share of clergy deaths 2020-2021, %",NA
+covid_share_expected_2020_2021,13.5,NA,NA,2922,"expected COVID-19 share at all-worker composition, %",NA
+clergy_deaths_2020_2021,11123,NA,NA,11123,"clergy deaths 2020-2021, benchmark denominator (employed decedents)",NA
+obesity_share_covid_certs_ratio,1.22,1.09,1.37,293,"obesity mentions per COVID-19-certificate death, clergy vs other employed, standardized over sex x 5-y age x race/ethnicity, 2020-2024; crude 7.9% vs 8.3%",NA
+acs_clergy_workforce,489712,480465,498959,NA,"mean annual ACS-weighted clergy, primary denominator (civilian 25-74, nonblank OCCP, participating jurisdictions), 2020-2024; SDR CI",NA
+pmr_rank2_occupation,1.58,1.08,2.23,32,"Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders",NA
+pmr_natural_rank1_occupation,NA,NA,NA,72,"Graders and Sorters, Agricultural Products",NA
+pmr_natural_rank1_value,1.84,1.44,2.31,72,"highest PMR excluding external, alcohol-induced, and smoking-related causes",NA
+pmr_clergy_natural_strict,1.95,1.88,2.02,2922,clergy PMR restricted to natural causes (external causes excluded),NA
+pmr_clergy_natural_strict_rank,1,NA,NA,NA,"rank among 449 occupations, strict natural causes",NA
+pmr_natural_strict_rank2_occupation,1.9,1.49,2.4,72,"Graders and Sorters, Agricultural Products",NA
+pmr_geo_region_only,1,0.99,1,NA,region-only composition ratio; SDR CI from replicate weights,NA
+pmr_clergy_2020,1.79,1.68,1.9,1057,"clergy COVID-19 PMR, 2020 alone; expected 591; reference composition within the year",NA
+pmr_clergy_2020_rank,2,NA,NA,NA,rank among 363 occupations with >=100 deaths in 2020; >=50-death floor (sensitivity): rank 2 of 363,NA
+pmr_clergy_2021,2.02,1.93,2.11,1865,"clergy COVID-19 PMR, 2021 alone; expected 925; reference composition within the year",NA
+pmr_clergy_2021_rank,1,NA,NA,NA,rank among 419 occupations with >=100 deaths in 2021; >=50-death floor (sensitivity): rank 1 of 420,NA
+pmr_clergy_2021_jan_apr,1.77,1.63,1.91,639,"clergy COVID-19 PMR, 2021 Jan-Apr (boundary Apr 30; adults vaccine-eligible Apr 19); expected 361",NA
+pmr_clergy_2021_may_dec,2.18,2.06,2.3,1226,"clergy COVID-19 PMR, 2021 May-Dec; expected 563",NA
+rr_covid_2020,2,1.85,2.17,1056,"COVID-19 rate ratio, 2020 alone, harmonized standardization, year-matched ACS denominator",NA
+rr_covid_2021,2.11,1.98,2.26,1865,"COVID-19 rate ratio, 2021 alone, harmonized standardization, year-matched ACS denominator",NA
+revision_blank_occ_all_2020_pct,9.08,NA,NA,3390278,"blank occupation field, % of ALL 2020 deaths in the file (file deaths in n); the I&O-eligible basis is in results/coverage_blank_occ.csv",REVISION_C3
+revision_audit_blank_occ_2021,1.452,NA,NA,3472120,"blank occupation field, % of ALL 2021 deaths in the file (file deaths in n); the I&O-eligible basis is in results/coverage_blank_occ.csv",REVISION_AUDIT
+revision_audit_blank_occ_2022,1.011,NA,NA,3289569,"blank occupation field, % of ALL 2022 deaths in the file (file deaths in n); the I&O-eligible basis is in results/coverage_blank_occ.csv",REVISION_AUDIT
+revision_audit_blank_occ_2023,1.05,NA,NA,3101016,"blank occupation field, % of ALL 2023 deaths in the file (file deaths in n); the I&O-eligible basis is in results/coverage_blank_occ.csv",REVISION_AUDIT
+revision_audit_blank_occ_2024,1.043,NA,NA,3082464,"blank occupation field, % of ALL 2024 deaths in the file (file deaths in n); the I&O-eligible basis is in results/coverage_blank_occ.csv",REVISION_AUDIT
+revision_pop_deaths_coded_occ_2020_2024,5664185,NA,NA,5664185,"employed decedents aged 25-74 with a coded analysis occupation, 2020-2024 (the analytic population; value = n)",REVISION_POP
+revision_pop_deaths_coded_occ_2020_2021,2400041,NA,NA,2400041,"employed decedents aged 25-74 with a coded analysis occupation, 2020-2021 (value = n)",REVISION_POP
+revision_pop_covid_deaths_2020_2024,375316,NA,NA,375316,"COVID-19 underlying-cause deaths in the analytic population, 2020-2024 (value = n)",REVISION_POP
+revision_pop_covid_deaths_2020_2021,292940,NA,NA,292940,"COVID-19 underlying-cause deaths in the analytic population, 2020-2021 (value = n)",REVISION_POP
+revision_audit_floor_jan_apr_2021,355,NA,NA,NA,occupations with >=100 deaths at ages 25-74 in Jan-Apr 2021,REVISION_AUDIT
+revision_audit_floor_may_dec_2021,417,NA,NA,NA,occupations with >=100 deaths at ages 25-74 in May-Dec 2021,REVISION_AUDIT
+revision_audit_clergy_share_np2020,7.71,NA,NA,NA,"share (%) of the clergy workforce (ACS person weights, 2019+2021, ages 25-74, occp rule) living in the jurisdictions not reporting occupation in 2020 (states 04,19,37,44,11 = AZ, IA, NC, RI, DC)",REVISION_AUDIT
+revision_pmr_clergy_natural_strict_raceadj,1.8555,1.7888,1.924,2922,"clergy PMR excluding external causes, sex x 5-y age x race/ethnicity strata; rank 1 of 449; supersedes the sex x age-only 1.95 for the revision (submitted row untouched)",REVISION_STRATA
+revision_pmr_clergy_natural_raceadj,1.695,1.6341,1.7576,2922,"clergy PMR excluding external, tobacco-related and alcohol-induced causes, sex x 5-y age x race/ethnicity strata; rank 1 of 449; supersedes the sex x age-only 1.75 for the revision (submitted row untouched)",REVISION_STRATA
+revision_pmr_clergy_natural_strict_raceadj_rank,1,NA,NA,449,rank among 449 occupations (n in this row),REVISION_STRATA
+revision_pmr_clergy_natural_raceadj_rank,1,NA,NA,449,rank among 449 occupations (n in this row),REVISION_STRATA
+revision_audit_overlap_strict_25_74,7,NA,NA,449,"occupations whose CI upper bound exceeds clergy's lower bound, pooled 25-74 excluding external causes (benchmark size in n)",REVISION_AUDIT
+revision_audit_expected_strict_25_74,1574.8,NA,NA,2922,"expected clergy COVID-19 deaths, pooled 25-74 benchmark excluding external causes (observed in n)",REVISION_AUDIT
+revision_audit_pmr_clergy_2022_2024,1.5929,1.4601,1.7347,529,"clergy COVID-19 PMR 2022-2024, all causes; expected 332.1; clergy denom deaths 12111; rank 6 of 359 (same strata/floor machinery, floor within period)",REVISION_AUDIT
+revision_audit_pmr_clergy_2022_2024_exexternal,1.5297,1.4021,1.6658,529,"clergy COVID-19 PMR 2022-2024, excluding external causes; expected 345.8; clergy denom deaths 11444; rank 9 of 359 (same strata/floor machinery, floor within period)",REVISION_AUDIT
+revision_audit_pmr_clergy_2022_2024_exext_tob_alc,1.3869,1.2712,1.5102,529,"clergy COVID-19 PMR 2022-2024, additionally excluding tobacco-related and alcohol-induced causes; expected 381.4; clergy denom deaths 10870; rank 15 of 359 (same strata/floor machinery, floor within period)",REVISION_AUDIT
+pmr_clergy_hispanic_strat,1.6808,1.5473,1.8226,585,"within-hispanic clergy COVID-19 ratio as the pooled-benchmark component: sex x 5-y age strata within group, reference = all coded employed decedents of the group; expected 348.1, clergy deaths in group 1234",REVISION_AUDIT
+pmr_clergy_nhblack_strat,1.7275,1.5945,1.8686,623,"within-nh_black clergy COVID-19 ratio as the pooled-benchmark component: sex x 5-y age strata within group, reference = all coded employed decedents of the group; expected 360.6, clergy deaths in group 2616",REVISION_AUDIT
+pmr_clergy_nhwhite_strat,2.2477,2.1367,2.3631,1535,"within-nh_white clergy COVID-19 ratio as the pooled-benchmark component: sex x 5-y age strata within group, reference = all coded employed decedents of the group; expected 682.9, clergy deaths in group 6622",REVISION_AUDIT
+pmr_clergy_nhother_strat,1.5617,1.3407,1.8088,178,"within-nh_other clergy COVID-19 ratio as the pooled-benchmark component: sex x 5-y age strata within group, reference = all coded employed decedents of the group; expected 114.0, clergy deaths in group 647",REVISION_AUDIT
+pmr_clergy_nhother,1.72,1.48,2,178,"within-nh_other COVID share ratio, clergy vs all employed, 2020-2021 (crude within-group, as the three letter rows; superseded for the revision by pmr_clergy_nhother_strat)",REVISION_RACE4
+revision_rank_overlap_count,6,NA,NA,450,"occupations (excluding clergy) whose 95% CI upper bound exceeds clergy's lower bound 1.8704, pooled 2020-2021 benchmark (benchmark size in n)",REVISION_RANK
+revision_rank_p_rank1_pooled,0.7812,NA,NA,10000,"parametric bootstrap P(clergy ranks 1), pooled 2020-2021 benchmark; Poisson draws on observed counts, expected fixed; seed 20261106 (replicates in n)",REVISION_RANK
+revision_rank_p_rank3_pooled,0.9989,NA,NA,10000,"parametric bootstrap P(clergy ranks in top 3), pooled 2020-2021 benchmark; same draws",REVISION_RANK
+revision_rank_p_rank1_pooled_min100obs,0.9998,NA,NA,301,"parametric bootstrap P(clergy ranks 1) among occupations with >=100 observed COVID-19 deaths, pooled 2020-2021; same draws and seed (count of such occupations in n)",REVISION_RANK
+revision_rank_p_rank3_pooled_min100obs,1,NA,NA,301,"parametric bootstrap P(clergy ranks in top 3) among occupations with >=100 observed COVID-19 deaths, pooled 2020-2021; same draws (count in n)",REVISION_RANK
+revision_audit_boot_worst_rank_pooled,5,NA,NA,10000,lowest clergy rank drawn in the pooled-benchmark parametric bootstrap (seed 20261106; replicates in n),REVISION_AUDIT
+revision_rank_p_rank1_2020,0.0769,NA,NA,10000,"parametric bootstrap P(clergy ranks 1), 2020-only benchmark (363 occupations); same method and seed",REVISION_RANK
+revision_rank_p_rank2_2020,0.2734,NA,NA,10000,"parametric bootstrap P(clergy ranks in top 2), 2020-only benchmark; same draws",REVISION_RANK
+revision_audit_boot_worst_rank_2020,11,NA,NA,10000,lowest clergy rank drawn in the 2020-benchmark parametric bootstrap (same seed),REVISION_AUDIT
+revision_misclass_pmr_true_p10,2.0445,1.9671,2.1241,NA,implied PMR among true clergy at misclassified fraction p = 0.10 (mixture bound; eTable 3),REVISION_C2
+revision_misclass_required_R_p10,10.4008,NA,NA,NA,"COVID-19 PMR the misclassified fraction would need for true clergy to be at the null, p = 0.10",REVISION_C2
+revision_misclass_pmr_true_p20,2.1751,2.088,2.2647,NA,implied PMR among true clergy at misclassified fraction p = 0.20 (mixture bound; eTable 3),REVISION_C2
+revision_misclass_required_R_p20,5.7004,NA,NA,NA,"COVID-19 PMR the misclassified fraction would need for true clergy to be at the null, p = 0.20",REVISION_C2
+revision_misclass_pmr_true_p30,2.343,2.2434,2.4453,NA,implied PMR among true clergy at misclassified fraction p = 0.30 (mixture bound; eTable 3),REVISION_C2
+revision_misclass_required_R_p30,4.1336,NA,NA,NA,"COVID-19 PMR the misclassified fraction would need for true clergy to be at the null, p = 0.30",REVISION_C2
+revision_misclass_pmr_true_p50,2.8802,2.7407,3.0234,NA,implied PMR among true clergy at misclassified fraction p = 0.50 (mixture bound; eTable 3),REVISION_C2
+revision_misclass_required_R_p50,2.8802,NA,NA,NA,"COVID-19 PMR the misclassified fraction would need for true clergy to be at the null, p = 0.50",REVISION_C2
+revision_misclass_sim_diff_p20,0.0021,NA,NA,NA,absolute difference between the mixture formula and a full-recompute simulation at p = 0.20 (reference re-pooled including the mixed clergy counts),REVISION_C2
+revision_edu_clergy_cert_share_2020_2021,33.7405,NA,NA,11052,"graduate/professional share of clergy decedents 2020-2021 (certificate, education-agreement conventions)",REVISION_EDU
+revision_edu_clergy_acs_share_2020_2021,49.4527,NA,NA,NA,ACS-weighted graduate/professional share among clergy workers 2020-2021,REVISION_EDU
+revision_edu_attenuation_median,-0.8646,-1.2834,-0.5877,436,"median attenuation log OR (empirical logit certificate minus empirical logit ACS) across benchmark occupations (n in this row); lower/upper are the IQR, not a CI",REVISION_EDU
+revision_edu_clergy_attenuation,-0.6529,NA,NA,NA,clergy attenuation log OR (certificate vs ACS),REVISION_EDU
+revision_edu_clergy_attenuation_percentile,67.66,NA,NA,436,percentile of clergy attenuation among benchmark occupations (n in this row); higher = less attenuated,REVISION_EDU
+revision_edu_physicians_attenuation,-13.6716,NA,NA,NA,"physicians attenuation log OR; ACS share at the 100% boundary, so the value is an artifact of the continuity correction and not informative",REVISION_EDU
+revision_edu_band_median_attenuation,-0.6529,NA,NA,27,median attenuation log OR among occupations with ACS graduate share 35-65% (count in n),REVISION_EDU
+revision_edu_clergy_band_rank,14,NA,NA,27,"clergy rank within the 35-65% ACS-share band, 1 = most attenuated (band percentile 48.1; band count in n)",REVISION_EDU
+revision_edu_clergy_residual_pp,-3.3685,NA,NA,NA,"clergy residual from the cross-occupation calibration line (cert ~ ACS, OLS, 436 occupations); superseded by the attenuation log OR 2026-11-06",SUPERSEDED_EDU
+revision_edu_clergy_residual_percentile,13.76,NA,NA,436,"percentile of clergy residual among benchmark occupations (n in this row); linear fit, superseded by the attenuation log OR 2026-11-06",SUPERSEDED_EDU
+revision_agecap_pmr_clergy_25_84,1.7267,1.6776,1.7768,4694,"clergy COVID-19 PMR ages 25-84, 2020-2021; same strata/machinery, age strata extended to [80,85); 25-74 companion is the published 1.94",REVISION_AGECAP
+revision_agecap_expected_25_84,2718.5,NA,NA,4694,expected clergy COVID-19 deaths ages 25-84 (observed in n),REVISION_AGECAP
+revision_retire_pmr_clergy_2559_all,2.2173,2.0582,2.3855,719,"clergy COVID-19 PMR, ages 25-59, 2020-2021, all causes; expected 324.3; rank 1 of 357 (sex x 5-y age x race/ethnicity, floor 100 in window)",REVISION_RETIRE
+revision_retire_pmr_clergy_2559_all_rank,1,NA,NA,357,"clergy rank, ages 25-59, all causes (occupations meeting the floor in n)",REVISION_RETIRE
+revision_retire_overlap_2559_all,14,NA,NA,357,"occupations whose CI upper bound exceeds clergy's lower bound, ages 25-59, all causes",REVISION_RETIRE
+revision_retire_pmr_clergy_2559_exexternal,1.924,1.786,2.07,719,"clergy COVID-19 PMR, ages 25-59, 2020-2021, excluding external; expected 373.7; rank 1 of 352 (sex x 5-y age x race/ethnicity, floor 100 in window)",REVISION_RETIRE
+revision_retire_pmr_clergy_2559_exexternal_rank,1,NA,NA,352,"clergy rank, ages 25-59, excluding external (occupations meeting the floor in n)",REVISION_RETIRE
+revision_retire_overlap_2559_exexternal,27,NA,NA,352,"occupations whose CI upper bound exceeds clergy's lower bound, ages 25-59, excluding external",REVISION_RETIRE
+revision_retire_p_rank1_2559_exexternal,0.2554,NA,NA,10000,"parametric bootstrap p rank1, ages 25-59 excluding external (seed 20261106, 10000 reps; replicates in n)",REVISION_RETIRE
+revision_retire_p_rank3_2559_exexternal,0.8208,NA,NA,10000,"parametric bootstrap p rank3, ages 25-59 excluding external (seed 20261106, 10000 reps; replicates in n)",REVISION_RETIRE
+revision_retire_p_rank1_min100obs_2559_exexternal,0.8752,NA,NA,168,"parametric bootstrap p rank1 min100obs, ages 25-59 excluding external (seed 20261106, 10000 reps; count of >=100-obs occupations in n)",REVISION_RETIRE
+revision_retire_p_rank3_min100obs_2559_exexternal,1,NA,NA,168,"parametric bootstrap p rank3 min100obs, ages 25-59 excluding external (seed 20261106, 10000 reps; count of >=100-obs occupations in n)",REVISION_RETIRE
+revision_retire_pmr_clergy_2564_all,2.1782,2.0597,2.3016,1264,"clergy COVID-19 PMR, ages 25-64, 2020-2021, all causes; expected 580.3; rank 1 of 392 (sex x 5-y age x race/ethnicity, floor 100 in window)",REVISION_RETIRE
+revision_retire_pmr_clergy_2564_all_rank,1,NA,NA,392,"clergy rank, ages 25-64, all causes (occupations meeting the floor in n)",REVISION_RETIRE
+revision_retire_overlap_2564_all,8,NA,NA,392,"occupations whose CI upper bound exceeds clergy's lower bound, ages 25-64, all causes",REVISION_RETIRE
+revision_retire_pmr_clergy_2564_exexternal,1.9766,1.8691,2.0887,1264,"clergy COVID-19 PMR, ages 25-64, 2020-2021, excluding external; expected 639.5; rank 1 of 391 (sex x 5-y age x race/ethnicity, floor 100 in window)",REVISION_RETIRE
+revision_retire_pmr_clergy_2564_exexternal_rank,1,NA,NA,391,"clergy rank, ages 25-64, excluding external (occupations meeting the floor in n)",REVISION_RETIRE
+revision_retire_overlap_2564_exexternal,10,NA,NA,391,"occupations whose CI upper bound exceeds clergy's lower bound, ages 25-64, excluding external",REVISION_RETIRE
+revision_retire_p_rank1_2564_exexternal,0.6,NA,NA,10000,"parametric bootstrap p rank1, ages 25-64 excluding external (seed 20261106, 10000 reps; replicates in n)",REVISION_RETIRE
+revision_retire_p_rank3_2564_exexternal,0.987,NA,NA,10000,"parametric bootstrap p rank3, ages 25-64 excluding external (seed 20261106, 10000 reps; replicates in n)",REVISION_RETIRE
+revision_retire_p_rank1_min100obs_2564_exexternal,0.941,NA,NA,221,"parametric bootstrap p rank1 min100obs, ages 25-64 excluding external (seed 20261106, 10000 reps; count of >=100-obs occupations in n)",REVISION_RETIRE
+revision_retire_p_rank3_min100obs_2564_exexternal,1,NA,NA,221,"parametric bootstrap p rank3 min100obs, ages 25-64 excluding external (seed 20261106, 10000 reps; count of >=100-obs occupations in n)",REVISION_RETIRE
+revision_retire_clergy_share6574,21.32,NA,NA,NA,"share of employed clergy aged 65-74 among ages 25-74, ACS 2021 1-year, denominator conventions",REVISION_RETIRE
+revision_retire_clergy_share6574_percentile,97.2,NA,NA,436,percentile of clergy 65-74 worker share among benchmark occupations with ACS rows (count in n),REVISION_RETIRE
+revision_retire_spearman_share_pmr,-0.002,NA,NA,436,"Spearman correlation, 65-74 worker share vs published pooled PMR, descriptive",REVISION_RETIRE
+revision_audit_rr_covid_2020,2.0001,1.846,2.1671,1056,"clergy vs other employed COVID-19 rate ratio, 2020 only, harmonized standardization (clergy COVID deaths in n)",REVISION_AUDIT
+revision_audit_rr_covid_2021,2.1131,1.9795,2.2556,1865,"clergy vs other employed COVID-19 rate ratio, 2021 only, harmonized standardization (clergy COVID deaths in n)",REVISION_AUDIT
+revision_retire_rr_allcause_2020_2021,0.9111,0.8866,0.9362,11119,"clergy vs other employed all-cause rate ratio, 2020-2021 only, harmonized standardization (clergy deaths in n)",REVISION_RETIRE
+revision_retire_denominator_k,2.05,NA,NA,NA,factor by which the clergy denominator would need to be too small for the true 2020-2021 COVID-19 rate ratio to equal 1 (= published 2.05),REVISION_RETIRE
+revision_retire_implied_allcause_rr,0.4444,NA,NA,NA,implied true 2020-2021 all-cause rate ratio under that denominator error (same-period all-cause RR / k),REVISION_RETIRE
+revision_audit_rr_allcause_2022_2024,0.7043,0.6838,0.7254,12101,"clergy vs other employed all-cause rate ratio, 2022-2024, harmonized standardization (clergy deaths in n)",REVISION_AUDIT
+revision_audit_rr_noncovid_2020_2021,0.7517,0.7277,0.7765,8198,"clergy vs other employed non-COVID-19 rate ratio, 2020-2021, harmonized standardization; clergy non-COVID deaths in n, clergy person-years 959551, other deaths 2074932",REVISION_AUDIT
+revision_audit_rr_noncovid_2022_2024,0.6949,0.6742,0.7163,11572,"clergy vs other employed non-COVID-19 rate ratio, 2022-2024, harmonized standardization; clergy non-COVID deaths in n, clergy person-years 1489829, other deaths 3133256",REVISION_AUDIT
+revision_audit_rr_noncovid_2020,0.762,0.73,0.7954,3987,"clergy vs other employed non-COVID-19 rate ratio, 2020, harmonized standardization; clergy non-COVID deaths in n, clergy person-years 457310, other deaths 983366",REVISION_AUDIT
+revision_audit_rr_noncovid_2021,0.7489,0.7126,0.7871,4211,"clergy vs other employed non-COVID-19 rate ratio, 2021, harmonized standardization; clergy non-COVID deaths in n, clergy person-years 502241, other deaths 1091566",REVISION_AUDIT
+revision_audit_rr_noncovid_2022,1.0038,0.8491,1.1865,3976,"clergy vs other employed non-COVID-19 rate ratio, 2022, harmonized standardization; clergy non-COVID deaths in n, clergy person-years 497178, other deaths 1082043; CAUTION: single-year ACS cells are sparse for clergy (a 43-person-weight stratum carries 11 deaths), which widens this CI and destabilizes the point estimate",REVISION_AUDIT
+revision_audit_rr_noncovid_2023,0.7208,0.6854,0.7581,3837,"clergy vs other employed non-COVID-19 rate ratio, 2023, harmonized standardization; clergy non-COVID deaths in n, clergy person-years 494759, other deaths 1041534",REVISION_AUDIT
+revision_audit_rr_noncovid_2024,0.6887,0.6529,0.7265,3758,"clergy vs other employed non-COVID-19 rate ratio, 2024, harmonized standardization; clergy non-COVID deaths in n, clergy person-years 497892, other deaths 1009679",REVISION_AUDIT
+revision_pop_rr_covid_age_25_44,1.36,1.01,1.83,81,"harmonized COVID-19 rate ratio, ages 25-44, 2020-2024 (clergy COVID deaths in n); absent from the letter's age rows because only 45-54/55-64/65-74 were harmonized there",REVISION_POP
+revision_audit_rr_covid_anywhere_harm,1.6644,1.5906,1.7416,3725,"clergy vs other employed rate ratio, deaths with COVID-19 anywhere on the record, 2020-2024, harmonized standardization (clergy deaths in n)",REVISION_AUDIT
+revision_audit_rate_clergy_covid_anywhere_harm,92.33,88.2,97.08,3725,"clergy rate per 100,000, deaths with COVID-19 anywhere, harmonized",REVISION_AUDIT
+revision_audit_rate_other_covid_anywhere_harm,55.47,55.3,55.65,NA,"other employed rate per 100,000, deaths with COVID-19 anywhere, harmonized",REVISION_AUDIT
+revision_audit_obesity_noncovid_mention_ratio,1.3345,1.2442,1.4297,810,"obesity mentions per death WITHOUT COVID-19 anywhere on the record, clergy vs other employed, standardized over sex x 5-y age x race/ethnicity, 2020-2024; expected 607.0 (like-for-like companion to the 1.22 row)",REVISION_AUDIT
+revision_audit_obesity_noncovid_unknownrace,1,NA,NA,811,clergy deaths with obesity recorded and no COVID-19 anywhere: total in n; value = those with unknown race/ethnicity (explains Table 1's race-known 810 vs the 811 total),REVISION_AUDIT

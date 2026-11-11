@@ -1,13 +1,13 @@
 cff-version: 1.2.0
 message: "If you use this code, please cite the research letter and this repository."
-title: "clergy-covid-letter: reproduction pipeline for 'COVID-19 Mortality Among US Clergy, 2020-2024'"
+title: "clergy-covid-mortality: reproduction pipeline for 'COVID-19 Mortality Among US Clergy, 2020-2024' (Original Investigation revision)"
 authors:
   - family-names: Gaghan
     given-names: Josh
   - family-names: Eagle
     given-names: David E.
-version: submission-v1
-date-released: "2026-09-14"
+version: revision-v1
+date-released: "2026-11-10"
 license: MIT
 repository-code: "https://github.com/joshgaghan/clergy-covid-mortality"
 doi: "10.5281/zenodo.22773003"
@@ -20,4 +20,4 @@ preferred-citation:
     - family-names: Eagle
       given-names: David E.
   year: 2026
-  notes: "Submitted; update volume/pages/DOI on publication."
+  notes: "Revised and resubmitted (Original Investigation); update volume/pages/DOI on publication."

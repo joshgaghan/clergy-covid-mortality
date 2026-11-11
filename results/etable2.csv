@@ -1,0 +1,8 @@
+age_range,causes,observed,expected,pmr,lo,hi,rank,overlap
+25-59,all causes,719,324.3,2.2173,2.0582,2.3855,1 of 357,14
+25-59,excluding external,719,373.7,1.924,1.786,2.07,1 of 352,27
+25-64,all causes,1264,580.3,2.1782,2.0597,2.3016,1 of 392,8
+25-64,excluding external,1264,639.5,1.9766,1.8691,2.0887,1 of 391,10
+25-74,all causes,2922,1506.1,1.9401,1.8704,2.0117,1 of 450,6
+25-74,excluding external,2922,1574.8,1.8555,1.7888,1.924,1 of 449,7
+25-84,all causes,4694,2718.5,1.7267,1.6776,1.7768,Not ranked,Not computed

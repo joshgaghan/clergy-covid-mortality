@@ -1741,7 +1741,14 @@ letter_figure_build(pmr_deaths)   # results/figure1.pdf, figure1.png
 ## either side.
 ## ===========================================================================
 shipped  <- readr::read_csv("numbers.csv", show_col_types = FALSE)
-banner(sprintf("Section 13: verification against numbers.csv (%d statistics)",
+# REVISION (2026-11-10): numbers.csv now also carries the revision scripts'
+# context-tagged rows (scripts 03-09); this script produces and verifies the
+# letter block (empty context) exactly as before.
+if ("context" %in% names(shipped)) {
+  shipped <- shipped[is.na(shipped$context) | shipped$context == "", ]
+  shipped$context <- NULL
+}
+banner(sprintf("Section 13: verification against numbers.csv (%d letter statistics)",
                nrow(shipped)))
 computed <- dplyr::bind_rows(ROWS)
 stopifnot(!any(duplicated(computed$name)))
