@@ -15,10 +15,12 @@ three parsed fields, and the rows and exhibits they produce.
    and 5-year age only, although the supplement described the benchmark's
    full strata. Recomputed under sex x 5-year age x race and ethnicity (the
    strata of every other estimate): 1.86 (95% CI, 1.79-1.92; rank 1 of 449)
-   and 1.69 (95% CI, 1.63-1.76; rank 1 of 449). The occupation previously
-   ranked first in the most restrictive comparison (graders and sorters of
-   agricultural products) loses its excess once comparisons are made within
-   race and ethnicity. The submitted rows remain in numbers.csv (letter
+   and 1.69 (95% CI, 1.63-1.76; rank 1 of 449). For the occupation
+   previously ranked first in the most restrictive comparison (graders and
+   sorters of agricultural products), the ratio falls from 1.84 to 1.28
+   (rank 20 of 449) once comparisons are made within race and ethnicity -
+   a much smaller excess, not none (1.29; 95% CI, 1.01-1.62 in the
+   all-cause benchmark). The submitted rows remain in numbers.csv (letter
    block) and reproduce at `submission-v1`; the corrected rows carry the
    REVISION_STRATA tag. Reported in the response letter.
 

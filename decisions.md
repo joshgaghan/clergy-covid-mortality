@@ -1357,3 +1357,20 @@ been sent).
   request (the manuscript legend carries the eligibility explanation);
   regenerated, nothing else changed. verify.R extended to run
   12_coauthor.R; all committed rows verified.
+
+## 2026-11-16 (later) — wording correction: graders and sorters retain a smaller excess
+
+The coauthor is right that two earlier entries overstate the race-adjustment
+result for graders and sorters of agricultural products: the 2026-11-05
+entry says the occupation "loses its excess under race/ethnicity
+adjustment," and the 2026-11-16 entry says "the excess is race
+composition." The correct statement, from the REVISION_COAUTHOR rows: the
+ratio falls from 1.84-1.90 (ranks 1-2 under sex x age strata) to 1.28-1.31
+(ranks 17-29 under the full strata), and the full-strata all-cause CI is
+1.29 (1.01-1.62) - a much smaller excess, not none; the all-cause and
+restricted CIs sit marginally above 1 on 72 COVID-19 deaths. What race
+adjustment removes is the occupation's TOP-TIER RANK, not the whole excess.
+The public CHANGES.md was reworded accordingly before any push; the
+response letter's corrections paragraph and its Comment 3.2 reply
+("shows no excess"; "lost its excess") carry the same overstatement and
+are flagged for the author's edit in the documents.
