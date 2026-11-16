@@ -26,7 +26,8 @@ run <- function(script) {
 }
 for (s in c("02_analysis.R", "03_coverage.R", "04_benchmarks.R",
             "05_rank_bootstrap.R", "06_misclassification.R", "07_education.R",
-            "08_age_retirement.R", "09_rates.R", "10_exhibits.R", "11_figures.R"))
+            "08_age_retirement.R", "09_rates.R", "10_exhibits.R", "11_figures.R",
+            "12_coauthor.R"))
   run(s)
 # 02_analysis.R writes only results/; the revision scripts rewrite their own
 # numbers.csv rows in place, so the file now holds the recomputation.

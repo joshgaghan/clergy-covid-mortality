@@ -1328,3 +1328,32 @@ restricted-benchmark CIs (1.53 [1.40-1.67]; 1.39 [1.27-1.51]) and the
 public CHANGES.md correction 2 was reworded to the same effect (the crude
 ratios were never "reported in a first-round response"; no response had
 been sent).
+
+## 2026-11-16 — coauthor checks (public branch; context REVISION_COAUTHOR)
+
+- Coauthor memo executed on the public revision branch (script
+  12_coauthor.R; 28 REVISION_COAUTHOR rows; full-precision memo in
+  results/coauthor_checks_memo.md). Headlines: under sex x 5-year-age-only
+  strata clergy are 2.0459 (1.9724-2.1215) rank 1/450 (all causes), 1.9467
+  rank 1/449 (excl external; reproduces the submitted 1.95), 1.7516 rank
+  2/449 (full restriction; reproduces the submitted 1.75 rank 2, graders
+  and sorters rank 1 on 72 COVID deaths) - and rank 1 in all three among
+  occupations with >=100 COVID-19 deaths. Sex x 10-y age reproduces the
+  development record's 2.05 (2.0477, 1.9741-2.1233). Graders and sorters:
+  full-strata ratios 1.28-1.31 (ranks 17-29) vs 1.84-1.90 (ranks 1-2)
+  without race - the excess is race composition. Meat industry 1180 stays
+  elevated under both restrictions with full strata (1.2111; 1.2045);
+  butcher occupation null throughout; death-composition shares reported
+  (butchers external 11.59% vs all-employed 13.40%; alcohol 4.07% vs
+  3.23%). CSS men 25-64 in 2021: 1.6155 (1.5229-1.7123) beside Syamlal's
+  1.68 (men 15-64). Within-2021 periods by age: Jan-Apr 1.9035 (25-64) /
+  1.6923 (65-74); May-Dec 2.3055 / 2.0739 - the post-eligibility widening
+  holds in both age groups. Region-only composition for 2021 alone: 1.0078
+  (SDR 1.0029-1.0128).
+- GAP FOUND AND FIXED: the revision branch had omitted the eMethods 12
+  industry row (revision_ind_pmr_meat_processing); restored by the same
+  script, byte-equal to the archival value (1.2269, 1.1564-1.3005).
+- Figure 2 Panel B label shortened to "May-Dec 2021" at the coauthor's
+  request (the manuscript legend carries the eligibility explanation);
+  regenerated, nothing else changed. verify.R extended to run
+  12_coauthor.R; all committed rows verified.

@@ -173,7 +173,7 @@ rc <- comp |> filter(group != "unknown") |>
                     nh_white = "Non-Hispanic White",
                     nh_other = "Non-Hispanic other")[race],
             grp = "By race and ethnicity")
-MAYDEC <- "May-Dec 2021\n(after universal adult\nvaccine eligibility)"
+MAYDEC <- "May-Dec 2021"   # label shortened at coauthor request, 2026-11-16
 b <- bind_rows(
   tibble::tibble(row = "Jan-Apr 2021", grp = "Within 2021",
                  pmr = g("pmr_clergy_2021_jan_apr")$value,
