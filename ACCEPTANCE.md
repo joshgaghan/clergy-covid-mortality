@@ -79,3 +79,34 @@ Figure 2 display set was computed on the same strata.
 
 Education-calibration guard inside the run (hardcoded published values):
 `guard passed: clergy 35.6/49.7, physicians 89.5/100.0`.
+
+---
+
+# Acceptance run (revision-v1, final)
+
+Recorded 2026-11-18 (Apple silicon, macOS; R 4.5.1 and the renv.lock
+package versions: readr 2.1.5, dplyr 1.1.4, tidyr 1.3.1, arrow 21.0.0.1,
+ggplot2 4.0.0, patchwork 1.3.2). Fresh clone of the `revision` branch into
+`~/clergy-ccm-acceptance-final`, containing only the repository files; the
+ten raw zips copied in from the local archive (01_data.R recomputes and
+reports their SHA-256 digests; the control-total canary is the backstop).
+
+**01_data.R** (9 min 10 s): parsed all five NVSS years and all five ACS
+years; all four published 2020 NCHS control totals reproduce
+(3,390,278 / 3,354,879 / 3,077,127 / 2,443,813) — **4/4 PASS**.
+
+**verify.R**: run twice — on the cloned tree (1 min 58 s) and again
+(1 min 46 s) after placing the release commit's remaining changes in the
+clone (the Table 1 obesity-label alignment in 10_exhibits.R, renv.lock,
+and the documentation files; no other analysis code differs). Both runs:
+
+```
+comparing 235 committed rows with 235 recomputed rows
+========================================================================
+VERIFY: all 235 committed statistics reproduce (<= 1e-8), and every
+Figure 2 display set was computed on the same strata.
+```
+
+02_analysis.R's letter verification inside the run: 108/108 PASS. Table 1
+regenerates with the manuscript's obesity row labels ("COVID-19
+certificates" / "other certificates"), values unchanged.

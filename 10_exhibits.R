@@ -28,8 +28,8 @@ SPEC <- tibble::tribble(
   "covid_age_45_54",       "COVID-19, ages 45-54 y",                    "rr_covid_age_45_54_harm",
   "covid_age_55_64",       "COVID-19, ages 55-64 y",                    "rr_covid_age_55_64_harm",
   "covid_age_65_74",       "COVID-19, ages 65-74 y",                    "rr_covid_age_65_74_harm",
-  "obesity_covid_cert",    "Obesity mentioned, COVID-19 on certificate", "rr_obesity_covid_cert_harm",
-  "obesity_noncovid_cert", "Obesity mentioned, COVID-19 not on certificate", "rr_obesity_noncovid_cert_harm")
+  "obesity_covid_cert",    "Obesity mentioned, COVID-19 certificates",  "rr_obesity_covid_cert_harm",
+  "obesity_noncovid_cert", "Obesity mentioned, other certificates",     "rr_obesity_noncovid_cert_harm")
 tab <- list(); vals <- list()
 for (i in seq_len(nrow(SPEC))) {
   b <- SPEC$base[i]

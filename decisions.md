@@ -1374,3 +1374,79 @@ The public CHANGES.md was reworded accordingly before any push; the
 response letter's corrections paragraph and its Comment 3.2 reply
 ("shows no excess"; "lost its excess") carry the same overstatement and
 are flagged for the author's edit in the documents.
+
+## 2026-11-17 — Job A: final-document audit — STOPPED on one mismatch
+
+- Final files received (01_manuscript.docx, 02_response_letter.docx,
+  03_supplement.docx; placed in manuscript/revision/). Audit extended to
+  every passage added since v10/v8/v5: 237 claims; 100 MATCH, 131 DERIVED
+  (all REVISION_COAUTHOR-row traces verified at half-up rounding), 0 value
+  mismatches in the manuscript and supplement. Cell-for-cell checks:
+  Table 2 and eTables 1-3 identical to the pipeline exhibits; Table 1
+  identical on every VALUE, with one label divergence (the manuscript's
+  obesity rows read "COVID-19 certificates"/"other certificates"; the
+  exhibit reads "on/not on certificate") - to be aligned when Job B
+  regenerates the exhibit. Figure 2B labels and the legend carry no
+  vaccine-eligibility reference, matching the relabeled figure.
+- **STOP-RULE FINDINGS (Job B not started):**
+  1. MISMATCH - the letter's Editorial item 16 says "The list has 27
+     references"; the final manuscript has 24. The letter's cross-reference
+     numbers corroborate an earlier longer list (it cites Arkansas as
+     reference 20 where the manuscript has 19; Decoufle 18 vs 17; linked
+     designs 25 vs 23; the uncoded-field history 10 vs 7; the political
+     reference 21 vs 20). Reference numbers themselves are outside the
+     audit's scope by rule, but they indicate the letter was not renumbered
+     after the reference list was trimmed.
+  2. PLACEHOLDERS in the final letter - items 3 and 5 still read "word
+     count [XX]" although the manuscript title page states 2,994.
+  3. PLACEHOLDER (expected) - the Data Sharing Statement's "[repository
+     DOI]" awaits the Zenodo DOI that Job B's release would mint.
+- Incidental (not audit items): manuscript reference 21 has a doubled
+  "doi:doi:"; reference 24's doi field carries a URL rather than a DOI.
+
+## 2026-11-18 — Job A cleared by the author; Job B (release) executed
+
+- The author confirmed that the 2026-11-17 stop findings (the letter's
+  "27 references" count, its un-renumbered cross-references, and the two
+  "word count [XX]" placeholders) were all in a stale copy of the response
+  letter and are fixed in the final version; no number in the manuscript or
+  supplement changed after the audit. Job A therefore passes and Job B
+  proceeds.
+- The three coauthor-check results of 2026-11-16 that are computed and
+  archived but NOT reported in the manuscript or supplement, recorded here
+  so the omission is deliberate and visible: (1) community and social
+  services men 25-64 in 2021, 1.6155 (1.5229-1.7123), beside Syamlal et
+  al.'s 1.68 for men 15-64; (2) the within-2021 period-by-age splits,
+  Jan-Apr 1.9035 (ages 25-64) / 1.6923 (ages 65-74) and May-Dec 2.3055 /
+  2.0739; (3) the region-only composition ratio for 2021 alone, 1.0078
+  (SDR 1.0029-1.0128). All live in numbers.csv under REVISION_COAUTHOR and
+  in results/coauthor_checks_memo.md.
+- Lockfile: the response letter says package versions are "recorded in the
+  archived code's lockfile," but the public repository pinned versions only
+  in the README. Resolved by adding renv.lock (renv snapshot of the
+  packages the scripts load, at the versions the acceptance runs used) to
+  the public repository, keeping the README pins and checking they match.
+- Table 1 obesity row labels in the public exhibit ("COVID-19 on
+  certificate" / "COVID-19 not on certificate") aligned to the final
+  manuscript's wording ("COVID-19 certificates" / "other certificates");
+  label-only, every value identical (verified cell-for-cell in Job A).
+- The final manuscript, response letter, and supplement are NOT included in
+  the tagged release: the author had not replaced the audited copies in
+  manuscript/revision/ by commit time, and the public repository ships code
+  and values, not Word documents. The copies audited at Job A remain
+  committed in the archival repository.
+- Release steps (public repo, branch `revision`): CHANGES.md updated
+  (correction 1 reworded with the graders CIs; 12_coauthor.R and renv.lock
+  additions; context-tag list completed), README brought to current state
+  with the tag mapping, CITATION.cff release date set, exhibits and figures
+  regenerated with the aligned labels, fresh-clone acceptance run recorded
+  in ACCEPTANCE.md, then commit, tag revision-v1, push, GitHub release for
+  the Zenodo archive.
+- DOI CORRECTION found during the release: CITATION.cff carried
+  10.5281/zenodo.22773003, which resolves to nothing. The repository's
+  actual Zenodo archive (via the GitHub integration, from the
+  submission-v1 release of 2026-09-15) is version DOI
+  10.5281/zenodo.22773728 under concept DOI 10.5281/zenodo.22773727.
+  CITATION.cff now carries the concept DOI, which always resolves to the
+  latest archived version; the revision-v1 release mints a new version DOI
+  under it.

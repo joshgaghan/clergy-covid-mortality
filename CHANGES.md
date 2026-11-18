@@ -3,8 +3,9 @@
 `submission-v1` reproduces the Research Letter as submitted. This branch
 reproduces the revised manuscript ("COVID-19 Mortality Among US Clergy,
 2020-2024", Original Investigation) and its supplement. Nothing at
-`submission-v1` was rewritten; the revision adds scripts 03-11, verify.R,
-three parsed fields, and the rows and exhibits they produce.
+`submission-v1` was rewritten; the revision adds scripts 03-12, verify.R,
+a package lockfile (renv.lock), three parsed fields, and the rows and
+exhibits they produce.
 
 ## Corrections to submitted estimates
 
@@ -17,10 +18,10 @@ three parsed fields, and the rows and exhibits they produce.
    strata of every other estimate): 1.86 (95% CI, 1.79-1.92; rank 1 of 449)
    and 1.69 (95% CI, 1.63-1.76; rank 1 of 449). For the occupation
    previously ranked first in the most restrictive comparison (graders and
-   sorters of agricultural products), the ratio falls from 1.84 to 1.28
-   (rank 20 of 449) once comparisons are made within race and ethnicity -
-   a much smaller excess, not none (1.29; 95% CI, 1.01-1.62 in the
-   all-cause benchmark). The submitted rows remain in numbers.csv (letter
+   sorters of agricultural products), its ratio fell from 1.84 (95% CI,
+   1.44-2.31) to 1.28 (95% CI, 1.00-1.62), rank 20 of 449, once comparisons
+   are made within race and ethnicity - a much smaller excess, not none
+   (1.29; 95% CI, 1.01-1.62 in the all-cause benchmark). The submitted rows remain in numbers.csv (letter
    block) and reproduce at `submission-v1`; the corrected rows carry the
    REVISION_STRATA tag. Reported in the response letter.
 
@@ -78,6 +79,20 @@ three parsed fields, and the rows and exhibits they produce.
 - **11_figures.R**: the revised Figure 1 (color key, no in-panel text) and
   Figure 2 (four-benchmark strips; clergy-only forest with the stratified
   race components).
+- **12_coauthor.R** (added 2026-11-16): the coauthor's pre-submission
+  checks - the sex-and-5-year-age-only benchmarks (reproducing the
+  submitted 1.95 and 1.75 and recording clergy's rank among occupations
+  with >=100 COVID-19 deaths), the graders-and-sorters full-strata ratios,
+  the butcher-occupation and animal-slaughtering-industry ratios under
+  both cause restrictions with death-composition shares, community and
+  social services men 25-64 in 2021, the within-2021 period-by-age splits,
+  and the 2021-only region composition ratio (REVISION_COAUTHOR rows;
+  full-precision memo in results/coauthor_checks_memo.md). The same script
+  restored the eMethods 12 industry row (REVISION_IND) that the first port
+  of the branch had omitted. These checks are archival; they are not
+  reported in the manuscript or supplement.
+- **renv.lock** (added 2026-11-18): the package lockfile for the versions
+  the acceptance runs used; the README's package pins match it.
 - **verify.R**: recomputes everything and fails beyond 1e-8 against the
   committed numbers.csv; enforces the Figure 2 same-strata checks.
 - **decisions.md**: the archival pipeline's dated decision log for the
@@ -94,5 +109,5 @@ The letter block (108 rows, empty context) is unchanged and still verified
 row-by-row by 02_analysis.R. The revision rows carry context tags
 (REVISION_C2, REVISION_C3, REVISION_STRATA, REVISION_EDU, SUPERSEDED_EDU,
 REVISION_RANK, REVISION_RACE4, REVISION_AGECAP, REVISION_POP,
-REVISION_RETIRE, REVISION_AUDIT) naming the analysis family; verify.R
-checks all of them.
+REVISION_RETIRE, REVISION_AUDIT, REVISION_COAUTHOR, REVISION_IND) naming
+the analysis family; verify.R checks all of them.

@@ -1,11 +1,18 @@
 # clergy-covid-mortality
 
 Reproduces every number in **"COVID-19 Mortality Among US Clergy,
-2020-2024"** and its supplement. Tag `submission-v1` reproduces the originally submitted
-Research Letter; this branch adds the revision's analyses. The archival
-record is the full pipeline repository, from which all analysis code here is
-extracted verbatim; CHANGES.md lists what changed between the submission and
-the revision, including two corrections to submitted estimates.
+2020-2024"** and its supplement. Two tags map to the two versions of the
+paper:
+
+- `submission-v1` — the originally submitted Research Letter (108
+  statistics, scripts 01-02);
+- `revision-v1` — the revised manuscript (Original Investigation) and its
+  supplement (235 statistics, scripts 01-12), the state of this branch.
+
+The archival record is the full pipeline repository, from which all
+analysis code here is extracted verbatim; CHANGES.md lists what changed
+between the submission and the revision, including two corrections to
+submitted estimates.
 
 ## Data sources (public; downloaded by script, not redistributed)
 
@@ -31,13 +38,14 @@ Rscript 08_age_retirement.R    # age windows, late retirement
 Rscript 09_rates.R             # harmonized rate ratios
 Rscript 10_exhibits.R          # Table 1 + eTables 1-3, guarded
 Rscript 11_figures.R           # Figures 1 and 2
-Rscript verify.R               # reruns 02-11 and checks every committed
+Rscript 12_coauthor.R          # pre-submission coauthor checks (archival)
+Rscript verify.R               # reruns 02-12 and checks every committed
                                # numbers.csv row to 1e-8 plus the Figure 2
                                # same-strata identities; ~2 min for the
                                # whole chain (ACCEPTANCE.md)
 ```
 
-Scripts 03-11 are one-per-analysis-family and idempotent: each replaces its
+Scripts 03-12 are one-per-analysis-family and idempotent: each replaces its
 own rows of `numbers.csv` (context-tagged) and can be rerun alone. Disk:
 ~5 GB in `data/` (plus ~1 GB of cached panels), peaking near 8 GB during
 parsing; measured on Apple silicon.
@@ -98,4 +106,6 @@ same strata - the check that caught the submission's strata inconsistency
 
 Code: MIT (LICENSE); federal data remain subject to the agencies' terms.
 Packages: R 4.5.1, readr 2.1.5, dplyr 1.1.4, tidyr 1.3.1, arrow 21.0.0.1,
-ggplot2 4.0.0, patchwork 1.3.2.
+ggplot2 4.0.0, patchwork 1.3.2. The same versions are recorded in
+`renv.lock`; the scripts run in any library carrying these packages
+(`renv::restore()` recreates one).

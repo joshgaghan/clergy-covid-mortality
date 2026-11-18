@@ -13,7 +13,7 @@
 | COVID-19, ages 45-54 y | 359 | 72.71 (63.31-83.81) | 28.25 (28.00-28.50) | 2.57 (2.25-2.94) |
 | COVID-19, ages 55-64 y | 987 | 154.94 (143.27-167.92) | 66.03 (65.64-66.42) | 2.35 (2.17-2.53) |
 | COVID-19, ages 65-74 y | 2,023 | 362.32 (341.63-384.91) | 254.64 (253.42-255.87) | 1.42 (1.34-1.51) |
-| Obesity mentioned, COVID-19 on certificate | 293 | 8.92 (7.46-11.18) | 4.31 (4.26-4.36) | 2.07 (1.74-2.45) |
-| Obesity mentioned, COVID-19 not on certificate | 810 | 23.60 (21.16-26.75) | 24.29 (24.18-24.41) | 0.97 (0.87-1.08) |
+| Obesity mentioned, COVID-19 certificates | 293 | 8.92 (7.46-11.18) | 4.31 (4.26-4.36) | 2.07 (1.74-2.45) |
+| Obesity mentioned, other certificates | 810 | 23.60 (21.16-26.75) | 24.29 (24.18-24.41) | 0.97 (0.87-1.08) |
 
 Ages 25-74 years, 2020-2024 unless a period or age range is stated. Counts are the deaths entering the standardized rates; rates per 100,000 person-years and rate ratios are directly standardized by sex, age, and race and ethnicity to the 2000 US standard population and exclude records with unknown race or ethnicity (14 of 23,234 clergy deaths, 2020-2024). Non-Hispanic other comprises non-Hispanic American Indian and Alaska Native, Asian, multiple-race, and Native Hawaiian and Other Pacific Islander decedents. 95% CIs by the Fay-Feuer method. Denominators are American Community Survey respondents reporting an occupation, restricted to jurisdictions reporting occupation data. The drug poisoning and suicide rows share intentional drug poisonings and are not mutually exclusive.

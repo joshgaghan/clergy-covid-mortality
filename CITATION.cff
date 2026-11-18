@@ -7,10 +7,10 @@ authors:
   - family-names: Eagle
     given-names: David E.
 version: revision-v1
-date-released: "2026-11-10"
+date-released: "2026-11-18"
 license: MIT
 repository-code: "https://github.com/joshgaghan/clergy-covid-mortality"
-doi: "10.5281/zenodo.22773003"
+doi: "10.5281/zenodo.22773727"
 preferred-citation:
   type: article
   title: "COVID-19 Mortality Among US Clergy, 2020-2024"
